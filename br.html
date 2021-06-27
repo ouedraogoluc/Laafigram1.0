@@ -1,0 +1,506 @@
+import React, { useEffect, useState } from 'react'
+import { StyleSheet, Text, View, TextInput, Button } from 'react-native'
+import { db, auth } from '../../firebase/config';
+import Icon from '@expo/vector-icons/AntDesign';
+import firebase from 'firebase'
+import "firebase/firestore";
+import FormInput from '../inputForm/FormInput';
+import FormButton from '../button/FormButton';
+import RNPickerSelect from 'react-native-picker-select';
+const Profile = ({ navigation }) => {
+    const [ loading, setLoading ] = useState(true);
+    const [profile, setProfile] = useState('')
+    const [address, setAddress] = useState("");
+    const [genre, setGenre] = useState("");
+    const [pays, setPays] = useState("");
+    const [dateNaiss, setDateNaiss] = useState("");
+    const [city, setCity] = useState("");
+    const [formation, setFormation] = useState("");
+    const [number, setNumber] = useState("");
+    const [experience, setExperience] = useState("");
+    const [specialite, setSpecialite] = useState("");
+    const [groupeSanguin, setGroupeSsnguin] = useState("");
+    const [poids, setPoids] = useState("");
+    const [niveauEtude, setNiveauEtude] = useState("");
+    const [department, setDepartment] = useState("");
+    useEffect(() => {
+        db
+            .collection('users')
+            .doc(firebase.auth().currentUser.uid)
+            .get()
+            .then(docSnap => {
+                setProfile(docSnap.data())
+            })
+    }, [])
+    if (profile.profile == "patient") {
+        const createPatient = async () => {
+            await db.collection("patients")
+                .add({
+                    number: number,
+                    groupeSanguin: groupeSanguin,
+                    address: address,
+                    city: city,
+                    dateNaiss: dateNaiss,
+                    genre: genre,
+                    poids: poids,
+                    pays:pays
+                })
+                .then(() => {
+                    navigation.goBack();
+                    
+                })
+                .catch((error) => alert(error));
+        }
+        return (
+            <View style={styles.container}>
+                <Text style={styles.text}>Veillez completer votre compte svp</Text>
+                <FormInput
+                    value={number}
+                    onChangeText={(text) => setNumber(text)}
+                    onSubmitEditing={createPatient}
+                    placeholderText="numero"
+                    iconType="phone"
+                    keyboardType="email-address"
+                    autoCapitalize="none"
+                    autoCorrect={false}
+                />
+
+                <FormInput
+                    value={groupeSanguin}
+                    onChangeText={(text) => setGroupeSsnguin(text)}
+                    onSubmitEditing={createPatient} placeholderText="group sanguin"
+                    iconType="blood"
+                  
+                />
+
+                <FormInput
+                    value={address}
+                    onChangeText={(text) => setAddress(text)}
+                    onSubmitEditing={createPatient} placeholderText="Adress"
+                    iconType="locate"
+                   
+                />
+
+                <FormInput
+                    value={city}
+                    onChangeText={(text) => setCity(text)}
+                    onSubmitEditing={createPatient} placeholderText="ville"
+                    iconType="city"
+
+                />
+
+               
+                    <RNPickerSelect
+                    onValueChange={(value) => setGenre(value)}
+                    items={[
+                        { label: 'M', value: 'M' },
+                        { label: 'F', value: 'F' },
+                    ]}
+                />
+
+                <FormInput
+                    value={dateNaiss}
+                    onChangeText={(text) => setDateNaiss(text)}
+                    onSubmitEditing={createPatient} placeholderText="Confirm Password"
+                    iconType="birth"
+                    
+                />
+                     <RNPickerSelect
+                    onValueChange={(value) => setPays(value)}
+                    items={[
+                        { label: 'Burkina', value: 'Burkina' },
+                    ]}
+                />
+                   <FormInput
+                    value={poids}
+                    onChangeText={(text) => setPoids(text)}
+                    onSubmitEditing={createPatient} placeholderText="poids"
+                    iconType="city"
+                    />
+                <FormButton
+                    buttonTitle="Valider"
+                    onPress={createPatient}
+                />
+            </View>
+        )
+    } else if (profile.profile == "doctor") {
+        return (
+            <View>
+                <Text style={styles.text}>doctor</Text>
+                <View style={{
+                    flexDirection: "row",
+                    alignItems: "center",
+                    marginHorizontal: 55,
+                    borderWidth: 2,
+                    marginTop: 50,
+                    paddingHorizontal: 10,
+                    borderColor: "#00716F",
+                    borderRadius: 23,
+                    paddingVertical: 2
+                }}>
+                    <Icon name="mail" color="#00716F" size={24} />
+                    <TextInput
+                        style={{ paddingHorizontal: 10 }}
+                        placeholder="departement"
+                        placeholderTextColor="#00716F"
+                    />
+                </View>
+            </View>
+        )
+    } else {
+        return (
+            <View>
+                <Text style={styles.text}>medical</Text>
+                <View style={{
+                    flexDirection: "row",
+                    alignItems: "center",
+                    marginHorizontal: 55,
+                    borderWidth: 2,
+                    marginTop: 50,
+                    paddingHorizontal: 10,
+                    borderColor: "#00716F",
+                    borderRadius: 23,
+                    paddingVertical: 2
+                }}>
+                    <Icon name="mail" color="#00716F" size={24} />
+                    <TextInput
+                        style={{ paddingHorizontal: 10 }}
+                        placeholder="localiter"
+                        placeholderTextColor="#00716F"
+                    />
+                </View>
+            </View>
+        )
+    }
+
+}
+
+export default Profile
+
+const styles = StyleSheet.create({
+    container: {
+        backgroundColor: '#f9fafd',
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        padding: 20,
+    },
+    text: {
+        fontFamily: 'Kufam-SemiBoldItalic',
+        fontSize: 28,
+        marginBottom: 10,
+        color: '#051d5f',
+    },
+    navButton: {
+        marginTop: 15,
+    },
+    navButtonText: {
+        fontSize: 18,
+        fontWeight: '500',
+        color: '#2e64e5',
+        fontFamily: 'Lato-Regular',
+    },
+    textPrivate: {
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+        marginVertical: 35,
+        justifyContent: 'center',
+    },
+    color_textPrivate: {
+        fontSize: 13,
+        fontWeight: '400',
+        fontFamily: 'Lato-Regular',
+        color: 'grey',
+    },
+});
+<Picker.Item label="O-" value="O-" />
+<Picker.Item label="A-" value="A-" />
+<Picker.Item label="A+" value="A+" />
+<Picker.Item label="AB+" value="AB+" />
+<Picker.Item label="B+" value="B+" />
+<Picker.Item label="B-" value="B-" />
+<Picker.Item label="AB-" value="AB-" />
+
+
+
+
+
+
+
+
+import React, { useEffect, useState } from 'react'
+import {
+    View,
+    Text,
+    Image,
+    TouchableOpacity,
+    StyleSheet,
+    ScrollView,
+    SafeAreaView,
+    TextInput,
+    KeyboardAvoidingView,
+    TouchableHighlight,
+    Picker
+
+} from 'react-native';
+import { db, auth } from '../../firebase/config';
+import firebase from 'firebase'
+import "firebase/firestore";
+import RadioForm, { RadioButton, RadioButtonInput, RadioButtonLabel } from 'react-native-simple-radio-button';
+import DatePicker from 'react-native-datepicker'
+import FormInput from '../inputForm/FormInput';
+const ComplteProfileUser = (props) => {
+    const initalState = {
+        genre: "",
+        dateNaiss: "",
+        formation: "",
+        experience: "",
+        groupeSanguin: "",
+        niveauEtude: "",
+        poids: "",
+        department: "",
+        specialite: "",
+    };
+    const [profile, setProfile] = useState('')
+    const [loading, setLoading] = useState(true);
+    const [selectedValue, setSelectedValue] = useState("O-");
+
+    const [radio_props, setradio_props] = useState("");
+
+    useEffect(() => {
+        db.collection('users')
+            .doc(firebase.auth().currentUser.uid)
+            .get()
+            .then(docSnap => {
+                setProfile(docSnap.data())
+            })
+    }, [])
+    if (profile.profile == "patient") {
+        return (
+            <ScrollView>
+                <KeyboardAvoidingView style={styles.container} enabled>
+                <View style={styles.row}>
+                        <Text style={styles.label}>genre</Text>
+                        <Picker
+                            selectedValue={selectedValue}
+                            style={{ height: 50, width: 150 }}
+                            onValueChange={(itemValue, itemIndex) => setSelectedValue(itemValue)}
+                        >
+                            <Picker.Item label="M" value="M" />
+                            <Picker.Item label="F" value="F" />
+                        </Picker>
+
+                    </View>
+                    <View style={styles.row}>
+                        <Text style={styles.label}>dateNaiss</Text>
+                    </View>
+
+                    <FormInput
+                       placeholderText="Email"
+                       iconType="user"
+                       keyboardType="email-address"
+                    />
+                      <FormInput
+                       placeholderText="poids"
+                       iconType="user"
+                       keyboardType="email-address"
+                    />
+                    
+                    <View style={styles.row}>
+                        <Text style={styles.label}>groupeSanguin</Text>
+                        <Picker
+                            selectedValue={selectedValue}
+                            style={{ height: 50, width: 150 }}
+                            onValueChange={(itemValue, itemIndex) => setSelectedValue(itemValue)}
+                        >
+                            <Picker.Item label="O-" value="O-" />
+                            <Picker.Item label="A-" value="A-" />
+                            <Picker.Item label="A+" value="A+" />
+                            <Picker.Item label="AB+" value="AB+" />
+                            <Picker.Item label="B+" value="B+" />
+                            <Picker.Item label="B-" value="B-" />
+                            <Picker.Item label="AB-" value="AB-" />
+                        </Picker>
+
+                    </View>
+                </KeyboardAvoidingView>
+            </ScrollView>
+
+
+        )
+    } else if (profile.profile == "doctor") {
+        return (
+            <View>
+                <Text style={styles.text}>nom - {profile.name}</Text>
+                <Text style={styles.text}>address - {profile.email}</Text>
+
+                <Text style={styles.text}>type - {profile.profile}</Text>
+            </View>
+        )
+    } else {
+        return (
+            <View>
+                <Text style={styles.text}>nom - {profile.name}</Text>
+                <Text style={styles.text}>address - {profile.email}</Text>
+                <Text style={styles.text}>type - {profile.profile}</Text>
+            </View>
+        )
+    }
+
+}
+
+export default ComplteProfileUser
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        padding: 20
+    },
+    row: {
+        marginBottom: 20,
+    },
+    label: {
+        fontSize: 20
+    },
+    textInput: {
+        height: 40,
+        borderWidth: 0,
+
+
+    },
+    btnContainer: {
+        backgroundColor: '#1A8',
+        padding: 10,
+        alignItems: 'center',
+    },
+    txtButton: {
+        fontSize: 20,
+        color: "#fff"
+    }
+})
+  if (this.state.isLoading) {
+            return (
+                <View style={styles.preloader}>
+                    <ActivityIndicator size="large" color="#9E9E9E" />
+                </View>
+            )
+        }
+        import React,{useLayoutEffect } from 'react'
+import { StyleSheet,TouchableOpacity, Text, View ,ScrollView,FlatList} from 'react-native'
+import { Ionicons, AntDesign,SimpleLineIcons } from '@expo/vector-icons';
+import { db, auth } from '../../firebase/config';
+import firebase from 'firebase'
+import "firebase/firestore";
+import {Container} from './style/HomeStyle'
+import PostCard from './PostCard'
+const Posts = [
+  {
+    id: '1',
+    userName: 'Dr Betina',
+    userImg: require('../../../images/doc1.jpg'),
+    postTime: '4 mins ago',
+    post:
+      'Covid-19 : situation dégradée dans les Landes, Jean Castex et Olivier Véran s’y rendent jeudi.',
+    postImg: require('../../../images/doc1.jpg'),
+    liked: true,
+    likes: '14',
+    comments: '5',
+    shart: '23',
+  },
+  {
+    id: '2',
+    userName: 'Dr Wanda',
+    userImg: require('../../../images/doc2.jpg'),
+    postTime: '2 hours ago',
+    post:
+      'Covid-19 : situation dégradée dans les Landes, Jean Castex et Olivier Véran s’y rendent jeudi.',
+      postImg: require('../../../images/doc6.jpg'),
+    liked: false,
+    likes: '8',
+    comments: '0',
+    shart: '23',
+  },
+  {
+    id: '3',
+    userName: 'Dr Bencé',
+    userImg: require('../../../images/doc4.jpg'),
+    postTime: '1 hours ago',
+    post:
+      'Covid-19 : situation dégradée dans les Landes, Jean Castex et Olivier Véran s’y rendent jeudi.',
+    postImg: require('../../../images/malaria3.jpg'),
+    liked: true,
+    likes: '1',
+    comments: '0',
+    shart: '23',
+  },
+  {
+    id: '4',
+    userName: 'Dr Augusto Bassam',
+    userImg: require('../../../images/doc4.jpg'),
+    postTime: '1 day ago',
+    post:
+      'Covid-19 : situation dégradée dans les Landes, Jean Castex et Olivier Véran s’y rendent jeudi.',
+      postImg: require('../../../images/malaria3.jpg'),
+    liked: true,
+    likes: '22',
+    comments: '4',
+    shart: '23',
+  },
+  {
+    id: '5',
+    userName: 'Dr Ibombo',
+    userImg: require('../../../images/doc6.jpg'),
+    postTime: '2 days ago',
+    post:
+      'Covid-19 : situation dégradée dans les Landes, Jean Castex et Olivier Véran s’y rendent jeudi.',
+      postImg: require('../../../images/doc4.jpg'),
+    liked: false,
+    likes: '0',
+    comments: '0',
+    shart: '23',
+  },
+  {
+    id: '6',
+    userName: 'Dr Ogueye',
+    userImg: require('../../../images/doc6.jpg'),
+    postTime: '2 days ago',
+    post:
+      'Covid-19 : situation dégradée dans les Landes, Jean Castex et Olivier Véran s’y rendent jeudi.',
+      postImg: require('../../../images/doc4.jpg'),
+    liked: false,
+    likes: '60',
+    comments: '90',
+    shart: '230',
+  },
+  {
+    id: '7',
+    userName: 'Henry',
+    userImg: require('../../../images/doc6.jpg'),
+    postTime: '2 days ago',
+    post:
+      'Covid-19 : situation dégradée dans les Landes, Jean Castex et Olivier Véran s’y rendent jeudi.',
+      postImg: 'none',
+    liked: false,
+    likes: '457',
+    comments: '28',
+    shart: '23',
+  },
+];
+const HomeScreen = () => {
+  
+    return (
+        <Container >
+         <FlatList
+            data={Posts}
+            renderItem={({item}) => <PostCard item={item}/>}
+            keyExtractor={item=>item.id}
+            showsVerticalScrollIndicator={false}
+         />
+        </Container>
+    )
+}
+
+export default HomeScreen
+
+const styles = StyleSheet.create({})
+ 
