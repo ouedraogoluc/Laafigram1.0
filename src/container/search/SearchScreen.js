@@ -33,7 +33,7 @@ export default function Search(props) {
                 data={users}
                 renderItem={({ item }) => (
                     <TouchableOpacity
-                        onPress={() => props.navigation.navigate("More", {uid: item.id})}>
+                        onPress={() => props.navigation.navigate("Rdv", {uid: item.id})}>
                         <Text>{item.name}</Text>
                     </TouchableOpacity>
 

@@ -29,7 +29,10 @@ export class PostScreen extends Component {
     };
     handlePost=()=>{
         Fire.shared.addPost({text:this.state.text.trim(),localUri:this.state.image}).then(ref=>{
-            this.setState({text:"",image:null});
+            this.setState({text:"",
+            image:null,
+            creation: firebase.firestore.FieldValue.serverTimestamp()
+        });
             this.props.navigation.goBack();
         }).catch(error=>{
             alert(error);

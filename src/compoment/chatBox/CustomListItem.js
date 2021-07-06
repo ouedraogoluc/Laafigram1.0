@@ -1,33 +1,44 @@
-import React from 'react'
-import { StyleSheet, Text, View } from 'react-native'
-import { ListItem, Avatar } from 'react-native-elements'
-
-const CustomListItem = (id,chatName,enterChat) => {
+import React, { useEffect, useState } from "react";
+import { StyleSheet, Text, View } from "react-native";
+import { ListItem, Avatar } from "react-native-elements";
+import * as firebase from "firebase";
+import { db, auth } from '../../firebase/config';
+const CustomListItem = ({ id, chatName, enterChat }) => {
+    const [chatMessages, setChatMessages] = useState([]);
+  
+    useEffect(() => {
+      const unsubscribe = db
+        .collection("chats")
+        .doc(id)
+        .collection("messages")
+        .onSnapshot((snapshot) =>
+          setChatMessages(snapshot.docs.map((doc) => doc.data()))
+        );
+      return unsubscribe;
+    });
     return (
-        <ListItem>
-            <Avatar
-                rounded
-                source={{
-                    uri:
-                        "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.echosdunet.net%2Fdossiers%2Fmeilleur-smartphone%2Fphoto&psig=AOvVaw27qfuPchPy2GKSIWZW8x8B&ust=1621457538907000&source=images&cd=vfe&ved=0CAIQjRxqFwoTCLDMzaSA1PACFQAAAAAdAAAAABAD",
-                }}
-            />
-            <ListItem.Content>
-                <ListItem.Title style={{ fontWeight: "800" }}>
-                    youtub chat
-             </ListItem.Title>
-             <ListItem.Subtitle>
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ex impedit quia, cum odio aperiam delectus deleniti voluptatibus amet explicabo nisi deserunt consectetur placeat error magnam molestias iste vero temporibus odit?
-             </ListItem.Subtitle>
-            </ListItem.Content>
-        </ListItem>
-
-    )
-}
-
-export default CustomListItem
-
-const styles = StyleSheet.create({
-
-    
-})
+      <ListItem key={id} bottomDivider onPress={() => enterChat(id, chatName)}>
+        <Avatar
+          rounded
+          source={{
+            uri:
+              chatMessages?.[0]?.photoURL ||
+              "https://cencup.com/wp-content/uploads/2019/07/avatar-placeholder.png",
+          }}
+        />
+        <ListItem.Content>
+          <ListItem.Title style={{ fontWeight: "800" }}>
+            {chatName}
+          </ListItem.Title>
+  
+          <ListItem.Subtitle numberOfLines={1} ellipsizeMode="tail">
+            {chatMessages?.[0]?.displayName}: {chatMessages?.[0]?.message}
+          </ListItem.Subtitle>
+        </ListItem.Content>
+      </ListItem>
+    );
+  };
+  
+  export default CustomListItem;
+  
+  const styles = StyleSheet.create({});

@@ -14,21 +14,16 @@ export default FormButton;
 
 const styles = StyleSheet.create({
   buttonContainer: {
-    marginTop: 10,
-    width: '100%',
-    height: windowHeight / 15,
-    padding: 10,
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderRadius: 3,
+    marginHorizontal: 55,
+    alignItems: "center",
+    justifyContent: "center",
+    marginTop: 30,
     backgroundColor: "#00716F",
     paddingVertical: 10,
-    borderRadius: 12
+    borderRadius: 23
   },
   buttonText: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    color: '#ffffff',
-    fontFamily: 'Lato-Regular',
+    fontSize: 20,
+    color: "#fff"
   },
 });

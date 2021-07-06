@@ -19,10 +19,9 @@ import "firebase/firestore";
 import RadioForm, { RadioButton, RadioButtonInput, RadioButtonLabel } from 'react-native-simple-radio-button';
 import DatePicker from 'react-native-datepicker'
 import FormInput from '../inputForm/FormInput';
-const ComplteProfileUser = (props) => {
-
-    
+const ComplteProfileUser = (props) => {  
     const [profile, setProfile] = useState('')
+    const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(true);
     const [genre, setGenre] = useState("");
     const [dateNaiss, setDateNaiss] = useState("");
@@ -33,7 +32,9 @@ const ComplteProfileUser = (props) => {
     const [poids, setPoids] = useState("");
     const [niveauEtude, setNiveauEtude] = useState("");
     const [department, setDepartment] = useState("");
+
     useEffect(() => {
+       
         db.collection('users')
             .doc(firebase.auth().currentUser.uid)
             .get()
@@ -43,7 +44,8 @@ const ComplteProfileUser = (props) => {
     }, [])
 
     if (profile.profile == "doctor") {
-        const createPatient = async (userId, patientId) => {
+          
+        const createPatient = async () => {
             await db.collection("doctors")
                 .add({
                     formation: formation,
@@ -56,6 +58,7 @@ const ComplteProfileUser = (props) => {
                     props.navigation.navigate("Profile");
                     
                 })
+              
                 .catch((error) => alert(error));
         }
         return (

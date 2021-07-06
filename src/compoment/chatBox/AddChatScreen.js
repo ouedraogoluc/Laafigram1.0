@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useCallback,useLayoutEffect} from 'react';
+/* import React, {useState, useEffect, useCallback,useLayoutEffect} from 'react';
 import {View, ScrollView, TouchableOpacity , Text, StyleSheet} from 'react-native';
 import {Bubble, GiftedChat, Send} from 'react-native-gifted-chat';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -128,3 +128,73 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
 });
+ */
+
+import React, {useState, useEffect, useCallback,useLayoutEffect} from 'react';
+import {View, ScrollView, TouchableOpacity , Text, StyleSheet} from 'react-native';
+import {Bubble, GiftedChat, Send} from 'react-native-gifted-chat';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import {AntDesign,Ionicons, SimpleLineIcons} from '@expo/vector-icons'
+import { Icon } from 'react-native-elements/dist/icons/Icon'
+import { Input,Button } from 'react-native-elements'
+import { db, auth } from '../../firebase/config';
+const AddChatScreen = ({navigation }) => {
+  
+  const [input,setInput]=useState("");
+    
+  useLayoutEffect(() => {
+    navigation.setOptions({
+        title:"Laafigram",
+        headerStyle:{backgroundColor:'#00716F'},
+        headerTitleStyle:{color:"#fff"},
+        hearderTintColor:"#fff",
+        
+        headerRight:()=>(
+            <View style={{
+              flexDirection:'row',
+              justifyContent: 'space-between',
+              width:80,
+              marginRight:20
+
+            }}>
+                <TouchableOpacity  activeOpacity={0.5}>
+                <AntDesign name='phone' size={24} color='#fff'/>
+                </TouchableOpacity>
+
+                <TouchableOpacity  activeOpacity={0.5}>
+                <Ionicons name='ios-videocam' size={24} color='#fff'/>
+                </TouchableOpacity>
+         </View>
+        ),
+    });
+}, [navigation]);
+const createChat =async ()=>{
+  await db.collection("chats")
+  .add({
+      ChatName:input,
+  })
+  .then(()=>{
+      navigation.goBack();
+  })
+  .catch((error)=>alert(error));
+}
+  return (
+    <View style={styles.container}>
+    <Input
+        placeholder="enter a new chat"
+        value={input}
+        onChangeText={(text)=>setInput(text)}
+        onSubmitEditing={createChat}
+        leftIcon={
+           <Icon name="wechat" type="antdesign" size={24} color="black"/>
+       }
+    />
+    <Button  onPress={createChat} title="create new chat"/>
+   </View>
+  )
+}
+
+export default AddChatScreen
+
+const styles = StyleSheet.create({})

@@ -9,6 +9,7 @@ const FormInput = ({ labelValue, placeholderText, iconType, ...rest }) => {
         <AntDesign name={iconType} size={25} color="#666" />
       </View>
       <TextInput
+      
         style={styles.textInput}
         numberOfLines={1  }
         placeholder={placeholderText}
@@ -28,16 +29,25 @@ const styles = StyleSheet.create({
       padding: 20
   },
   row: {
-      marginBottom: 20,
+    flexDirection: "row",
+    alignItems: "center",
+    marginHorizontal: 55,
+    borderWidth: 2,
+    marginTop: 50,
+    paddingHorizontal: 10,
+    borderColor: "#00716F",
+    borderRadius: 23,
+    paddingVertical: 2
   },
   label: {
       fontSize: 20
   },
   
   textInput: {
+    width:"100%",
       height: 40,
       borderWidth: 0,
-
+      marginHorizontal: 55,
 
   },
   btnContainer: {

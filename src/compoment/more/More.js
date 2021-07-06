@@ -68,7 +68,7 @@ const More = ({ navigation }) => {
                 <View style={styles.userInfoSection}>
                     <View style={styles.row}>
                         <Icon name="map-marker-radius" color="#777777" size={20} />
-                        <Text style={{ color: "#777777", marginLeft: 20 }}>Senegal Dakar</Text>
+                        <Text style={{ color: "#777777", marginLeft: 20 }}>{profile.formation}</Text>
                     </View>
                     <View style={styles.row}>
                         <Icon name="phone" color="#777777" size={20} />
@@ -94,13 +94,13 @@ const More = ({ navigation }) => {
                 </View>
 
                 <View style={styles.menuWrapper}>
-                    <TouchableRipple onPress={() => navigation.navigate('CompleteProfile')}>
+                    <TouchableRipple onPress={() => navigation.navigate('ho')}>
                         <View style={styles.menuItem}>
                             <Icon name="credit-card" color="#FF6347" size={25} />
-                            <Text style={styles.menuItemText}>Finaliser mon profile</Text>
+                            <Text style={styles.menuItemText}>horaires</Text>
                         </View>
                     </TouchableRipple>
-                    <TouchableRipple onPress={() => { }}>
+                    <TouchableRipple onPress={() => navigation.navigate('Appointment')}>
                         <View style={styles.menuItem}>
                             <Icon name="credit-card" color="#FF6347" size={25} />
                             <Text style={styles.menuItemText}>Mes Rendez-vous</Text>
@@ -112,7 +112,7 @@ const More = ({ navigation }) => {
                             <Text style={styles.menuItemText}>Mes consultations</Text>
                         </View>
                     </TouchableRipple>
-                    <TouchableRipple onPress={() => { }}>
+                    <TouchableRipple onPress={() =>navigation.navigate('AgendaView')}>
                         <View style={styles.menuItem}>
                             <Icon name="share-outline" color="#FF6347" size={25} />
                             <Text style={styles.menuItemText}>Programmer mes avenements</Text>
@@ -125,13 +125,13 @@ const More = ({ navigation }) => {
                             <Text style={styles.menuItemText}>dossier medical</Text>
                         </View>
                     </TouchableRipple>
-                    <TouchableRipple onPress={() => { }}>
+                    <TouchableRipple onPress={() => navigation.navigate('Horaires')}>
                         <View style={styles.menuItem}>
                             <Ionicons name="ios-document-attach" color="#FF6347" size={25} />
                             <Text style={styles.menuItemText}>Definir mes horaires de travail</Text>
                         </View>
                     </TouchableRipple>
-                    <TouchableRipple onPress={() => { }}>
+                    <TouchableRipple onPress={() =>navigation.navigate('Teleconference')}>
                         <View style={styles.menuItem}>
                             <Ionicons name="ios-document-attach" color="#FF6347" size={25} />
                             <Text style={styles.menuItemText}>Teleconference</Text>
@@ -294,12 +294,6 @@ const More = ({ navigation }) => {
                 </View>
 
                 <View style={styles.menuWrapper}>
-                <TouchableRipple onPress={() => navigation.navigate('CompleteProfile')}>
-                        <View style={styles.menuItem}>
-                            <Icon name="credit-card" color="#FF6347" size={25} />
-                            <Text style={styles.menuItemText}>Finaliser mon profile</Text>
-                        </View>
-                    </TouchableRipple>
                     <TouchableRipple onPress={() => { }}>
                         <View style={styles.menuItem}>
                             <Icon name="credit-card" color="#FF6347" size={25} />

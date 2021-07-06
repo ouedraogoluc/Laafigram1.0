@@ -12,6 +12,7 @@ import {
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 const Profile = ({navigation}) => {
+  
     return (
      <SafeAreaView style={{flex: 1, backgroundColor: '#fff'}}>
          <ScrollView 

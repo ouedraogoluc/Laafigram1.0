@@ -1,58 +1,79 @@
-import React,{useLayoutEffect } from 'react'
-import { StyleSheet, Text, View ,TouchableOpacity, Alert} from 'react-native'
-import { Ionicons, AntDesign,SimpleLineIcons } from '@expo/vector-icons';
+import React,{useState,useEffect} from 'react'
+import { View, Text ,Image,FlatList,StyleSheet,TouchableOpacity} from 'react-native'
+import {FAB} from 'react-native-paper'
+import * as firebase from "firebase";
+import { db, auth } from '../../firebase/config';
+export default function HomeScreen({user,navigation}) {
+   // console.log(user)
+    const [users,setUsers] = useState(null)
+    const getUsers = async ()=>{
+             const querySanp = await db.collection('users').where('uid','!=',user.uid).get()
+             const allusers = querySanp.docs.map(docSnap=>docSnap.data())
+            //  console.log(allusers)
+             setUsers(allusers)
+    }
 
-const ChatScreen = ({navigation}) => {
-    useLayoutEffect(() => {
-        navigation.setOptions({
-            title:"LaafiGram",
-            headerStyle:{backgroundColor:"#fff"},
-            headerTitleStyle:{color:"black"},
-            hearderTintColor:"black",
-            headerLeft:()=>{
-                   
-            },
-            headerRight:()=>(
-              <View style={{
-                flexDirection:'row',
-                justifyContent: 'space-between',
-                width:100,
-                marginRight:10
-    
-              }}>
-                  <TouchableOpacity  activeOpacity={0.5}>
-                  <Ionicons name='ios-call' size={24} color='black'/>
-                  </TouchableOpacity>
-                  <TouchableOpacity  activeOpacity={0.5}>
-                  <Ionicons name='ios-videocam' size={24} color='black'/>
-                  </TouchableOpacity>
-                  <TouchableOpacity  activeOpacity={0.5}  
-                   onPress={()=>Alert.alert('Logout','Are you sure to log out',[
-                    {
-                        text:'yes',
-                        onPress:()=>alert('logged out')
-                    },
-                    {
-                      text:'no'  
-                    }
-                ],{
-                    cancelable:false
-                })}>
-                  <Ionicons name='ios-log-out' size={24} color='black'
-                   
-                  />
-                  </TouchableOpacity>
-           </View>
-          ),
-        });
-    }, [navigation])
+    useEffect(()=>{
+        getUsers()
+    },[])
+
+    const RenderCard = ({item})=>{
+          return (
+              <TouchableOpacity onPress={()=>navigation.navigate('chat',{name:item.name,uid:item.uid,
+                status :typeof(item.status) =="string"? item.status : item.status.toDate().toString()
+            })}>
+              <View style={styles.mycard}>
+                  <Image source={{uri:item.pic}} style={styles.img}/>
+                  <View>
+                      <Text style={styles.text}>
+                          {item.name}
+                      </Text>
+                      <Text style={styles.text}>
+                          {item.email}
+                      </Text>
+                  </View>
+              </View>
+              </TouchableOpacity>
+          )
+    }
     return (
-        <View>
-            <Text>AddChat qscfev</Text>
+        <View style={{flex:1}}>
+            <FlatList 
+              data={users}
+              renderItem={({item})=> {return <RenderCard item={item} /> }}
+              keyExtractor={(item)=>item.uid}
+            />
+             <FAB
+                style={styles.fab}
+                icon="face-profile"
+                color="black"
+                onPress={() => navigation.navigate("account")}
+            />
+            
         </View>
     )
 }
 
-export default ChatScreen
 
-const styles = StyleSheet.create({})
+const styles = StyleSheet.create({
+   img:{width:60,height:60,borderRadius:30,backgroundColor:"green"},
+   text:{
+       fontSize:18,
+       marginLeft:15,
+   },
+   mycard:{
+       flexDirection:"row",
+       margin:3,
+       padding:4,
+       backgroundColor:"white",
+       borderBottomWidth:1,
+       borderBottomColor:'grey'
+   },
+   fab: {
+    position: 'absolute',
+    margin: 16,
+    right: 0,
+    bottom: 0,
+    backgroundColor:"white"
+  },
+ });

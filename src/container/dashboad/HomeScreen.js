@@ -1,10 +1,27 @@
 import React, { Component } from 'react'
+import { StatusBar } from 'expo-status-bar';
 import { View, Text, StyleSheet, TouchableOpacity, SafeAreaView, Image, FlatList } from 'react-native'
 import firebase from 'firebase'
 import "firebase/firestore";
 import Fire from '../post/Fire';
 import { db, auth } from '../../firebase/config';
-import { Ionicons, Feather , SimpleLineIcons } from '@expo/vector-icons';
+import { Ionicons, Feather, SimpleLineIcons } from '@expo/vector-icons';
+import { FloatingAction } from "react-native-floating-action";
+const actions = [
+    {
+        text: "Post",
+        icon: require("../../../assets/icon1.png"),
+        name: "btn_add",
+        position: 1
+    },
+    {
+        text: "share",
+        icon: require("../../../assets/icon1.png"),
+        name: "btn_share",
+        position: 2
+    }
+];
+
 const posts = [
   {
     id: "1",
@@ -64,6 +81,13 @@ const posts = [
 
 export class HomeScreen extends Component {
 
+  constructor(props) {
+    super(props);
+    this.navigation=props.navigation
+    this.state = {
+       
+    }
+}
   renderPost = post => {
     return (
       <View style={styles.feedItem}>
@@ -74,7 +98,7 @@ export class HomeScreen extends Component {
               <Text style={styles.name}>{post.name}</Text>
               <Text style={styles.timestamp}>{post.timestamp}</Text>
             </View>
-                      
+
             <Feather name="more-horizontal" size={24} color="#73788B" />
           </View>
           <Text style={styles.post}>{post.text}</Text>
@@ -85,8 +109,10 @@ export class HomeScreen extends Component {
             <Ionicons name="md-share-social-outline" size={24} color="#73788B" style={{ marginRight: 16 }} />
           </View>
         </View>
-      </View>
+       
+        </View>
     )
+    
   }
   render() {
     return (
@@ -102,7 +128,21 @@ export class HomeScreen extends Component {
           keyExtractor={item => item.id}
           showsVerticalScrollIndicator={false}
         ></FlatList>
+                    <View style={styles.container}>
+              <Text>ok</Text>
+              <FloatingAction
+                    actions={actions}
+                    onPressItem={name => {
+                       if (name=='btn_add') {
+                           this.navigation.navigate('Post')
+                       }      
+                    }}
+                />
+                
+                <StatusBar style="auto" />
+          </View>
       </View>
+      
     )
   }
 }

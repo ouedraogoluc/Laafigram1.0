@@ -4,7 +4,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Ionicons, AntDesign, Fontisto } from '@expo/vector-icons';
 
 import PostScreen from '../container/post/PostScreen'
-import HomeScreen from '../container/dashboad/HomeScreen'
+import HomeScreen2 from '../container/dashboad/HomeScreen2'
 import DoctorList from '../container/doctor/DoctorList'
 import MedicalList from '../container/medical/MedicalList'
 import PatientList from '../container/patient/PatientList'
@@ -18,7 +18,7 @@ const TabsNavigation = ({ navigation }) => {
         navigation.setOptions({
             title: "LaafiGram",
             headerStyle: { backgroundColor: "#00716F" ,
-            height: 110,
+            height: 80,
             elevation:0.0,
             borderRadius: 5,
             
@@ -46,7 +46,7 @@ const TabsNavigation = ({ navigation }) => {
                     <TouchableOpacity onPress={() => navigation.navigate("Profile")} activeOpacity={0.5}>
                         <Ionicons name='ios-person' size={24} color= "#fff"/>
                     </TouchableOpacity>
-                    <TouchableOpacity onPress={() => navigation.navigate("Chat")} activeOpacity={0.5}>
+                    <TouchableOpacity onPress={() => navigation.navigate("Chats")} activeOpacity={0.5}>
                         <Ionicons name='ios-chatbubble-ellipses-outline' size={24} color= "#fff"/>
                     </TouchableOpacity>
                     <TouchableOpacity activeOpacity={0.5} onPress={() => navigation.navigate("More")}>
@@ -58,7 +58,7 @@ const TabsNavigation = ({ navigation }) => {
     }, [navigation])
     return (
         <Tab.Navigator>
-            <Tab.Screen name="home" component={HomeScreen}
+            <Tab.Screen name="home" component={HomeScreen2}
                 options={{
                     tabBarIcon: ({ focused }) => (
                         <View

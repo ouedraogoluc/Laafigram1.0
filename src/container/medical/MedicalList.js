@@ -1,173 +1,165 @@
-import React from 'react'
-import { StyleSheet, Text, View, TouchableOpacity, TextInput, ScrollView } from 'react-native'
-import { ListItem, Icon } from 'react-native-elements'
-import { db, auth } from '../../firebase/config';
+import React, { useState, useEffect } from 'react';
+import { ActivityIndicator, StyleSheet,FlatList,Image, View, SafeAreaView  } from 'react-native';
 import firebase from 'firebase'
 import "firebase/firestore";
-import { LinearGradient } from 'expo-linear-gradient'
-const MedicalList = ({ navigation }) => {
-    const signOutUser = () => {
-        auth.signOut().then(() => {
-            navigation.replace("Login");
-        });
-    }
-    return (
-        <View style={{
-            backgroundColor: "#FFF",
-            flex: 1
-        }}>
-            <LinearGradient
-                colors={["rgba(0,164,109,0.4)", "transparent"]}
-                style={{
-                    left: 0,
-                    right: 0,
-                    height: 90,
-                    marginTop: 10
-                }}
-            >
-                <View style={{
-                    backgroundColor: "#FFF",
-                    paddingVertical: 8,
-                    paddingHorizontal: 20,
-                    marginHorizontal: 20,
-                    borderRadius: 15,
-                    marginTop: 25,
-                    flexDirection: "row",
-                    alignItems: "center"
-                }}>
-                    <TextInput
-                        placeholder="Search"
-                        placeholderTextColor="#b1e5d3"
-                        style={{
-                            fontWeight: "bold",
-                            fontSize: 18,
-                            width: 260
-                        }}
-                    />
+import Fire from '../post/Fire';
+import { db, auth } from '../../firebase/config';
+import { Ionicons, Feather , SimpleLineIcons } from '@expo/vector-icons';
+import {
+  Avatar,
+  Title,
+  Caption,
 
-                </View>
-            </LinearGradient>
-            <ScrollView>
-                <View>
-                    <Text style={styles.text}>nom </Text>
+  TouchableRipple,
 
-                </View>
-                <View>
-                    <Text style={styles.text}>nom </Text>
+} from 'react-native-paper';
+import {Container,Card,UserInfo,UserImg,
+  UserInfoText,
+  UserName,
+  PostTime,
+  PostText,
+  PostImg,
+  Divider,
+  Interaction,
+  InteractionText,
+  InteractionWrapper
 
-                </View>
-                <View>
-                    <Text style={styles.text}>nom </Text>
+} from '../../container/dashboad/style/HomeStyle'
 
-                </View>
-                <View>
-                    <Text style={styles.text}>nom </Text>
-
-                </View>
-                <View>
-                    <Text style={styles.text}>nom </Text>
-
-                </View>
-                <View>
-                    <Text style={styles.text}>nom </Text>
-
-                </View>
-                <View>
-                    <Text style={styles.text}>nom </Text>
-
-                </View>
-                <View>
-                    <Text style={styles.text}>nom </Text>
-
-                </View>
-                <View>
-                    <Text style={styles.text}>nom </Text>
-
-                </View>
-                <View>
-                    <Text style={styles.text}>nom </Text>
-
-                </View>
-                <View>
-                    <Text style={styles.text}>nom </Text>
-
-                </View>
-                <View>
-                    <Text style={styles.text}>nom </Text>
-
-                </View>
-                <View>
-                    <Text style={styles.text}>nom </Text>
-
-                </View>
-                <View>
-                    <Text style={styles.text}>nom </Text>
-
-                </View>
-                <View>
-                    <Text style={styles.text}>nom </Text>
-
-                </View>
-                <View>
-                    <Text style={styles.text}>nom </Text>
-
-                </View>
-                <View>
-                    <Text style={styles.text}>nom </Text>
-
-                </View>
-                <View>
-                    <Text style={styles.text}>nom </Text>
-
-                </View>
-                <View>
-                    <Text style={styles.text}>nom </Text>
-
-                </View>
-                <View>
-                    <Text style={styles.text}>nom </Text>
-
-                </View>
-                <View>
-                    <Text style={styles.text}>nom </Text>
-
-                </View>
-                <View>
-                    <Text style={styles.text}>nom </Text>
-
-                </View>
-                <View>
-                    <Text style={styles.text}>nom </Text>
-
-                </View>
-                <View>
-                    <Text style={styles.text}>nom </Text>
-
-                </View>
-                <View>
-                    <Text style={styles.text}>nom </Text>
-
-                </View>
-                <View>
-                    <Text style={styles.text}>nom </Text>
-
-                </View>
-                <View>
-                    <Text style={styles.text}>nom </Text>
-
-                </View>
-                <View>
-                    <Text style={styles.text}>nom </Text>
-
-                </View>
-                
-            </ScrollView>
-
-        </View>
-
-    )
+const MedicalList = ({navigation}) => {
+    const [loading, setLoading] = useState(true); // Set loading to true on component mount
+    const [users, setUsers] = useState([]); // Initial empty array of users
+       useEffect(() => {
+           const subscriber = db
+             .collection('users')
+             .where('profile','==','Medical')
+             .onSnapshot(querySnapshot => {
+               const users = [];
+               querySnapshot.forEach(documentSnapshot => {
+                 users.push({
+                   ...documentSnapshot.data(),
+                   key: documentSnapshot.id,
+                 });
+               });
+         
+             setUsers(users);
+               setLoading(false);
+             });
+         
+           // Unsubscribe from events when no longer in use
+           return () => subscriber();
+         }, []);
+         if (loading) {
+           return <ActivityIndicator />;
+         }
+       return (
+        <SafeAreaView style={{flex: 1}}>
+        <Container>
+           <FlatList
+           data={users}
+           renderItem={({ item }) => (
+            
+                 <Card>
+             <UserInfo>
+             <Image source={require('../../../images/doc2.jpg')}style={styles.avatar} />
+              <UserInfoText>
+              <UserName>{item.name}</UserName>
+              <PostTime>{item.email}</PostTime>
+              </UserInfoText>
+           </UserInfo>
+           <PostText>{item.typeMedical}</PostText>
+           <PostText>{item.address}</PostText>
+           <PostText>{item.number}</PostText>
+           <PostText>{item.serviceMedical}</PostText>
+                 <Divider/> 
+           <InteractionWrapper>
+              <Interaction active >
+                <Ionicons name="heart-outline" size={25} color="2e64e5" />
+                <InteractionText active> s'abonnée</InteractionText>
+              </Interaction>
+              <Interaction>
+                <Ionicons name="md-chatbubble-outline" size={25} />
+                <TouchableRipple onPress={() => navigation.navigate('Rdv')}>
+                <InteractionText > renddez-vous</InteractionText>
+                </TouchableRipple>
+              </Interaction>
+              <Interaction>
+                <Ionicons name="md-chatbox-outline" size={25} />
+                <TouchableRipple onPress={() => navigation.navigate('Chat')}>
+                <InteractionText>Message</InteractionText>
+                </TouchableRipple>
+               
+              </Interaction>
+          </InteractionWrapper>
+        </Card>
+            
+           )}
+         />
+          </Container>
+        </SafeAreaView>
+       )
 }
 
 export default MedicalList
 
-const styles = StyleSheet.create({})
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: "#EBECF4"
+  },
+  header: {
+    paddingTop: 24,
+    paddingBottom: 10,
+    backgroundColor: "#FFF",
+    alignItems: "center",
+    justifyContent: "center",
+    borderBottomWidth: 1,
+    borderBottomColor: "#EBECF4",
+    shadowColor: "#454D65",
+    shadowOffset: { height: 5 },
+    shadowRadius: 15,
+    shadowOpacity: 0.2,
+    zIndex: 10
+  },
+  headerTitle: {
+    fontSize: 20,
+    fontWeight: "500"
+  },
+  feed: {
+    marginHorizontal: 16
+  },
+  feedItem: {
+    backgroundColor: "#FFF",
+    borderRadius: 5,
+    padding: 8,
+    flexDirection: "row",
+    marginVertical: 8
+  },
+  avatar: {
+    width: 36,
+    height: 36,
+    borderRadius: 18,
+    marginRight: 16
+  },
+  name: {
+    fontSize: 15,
+    fontWeight: "500",
+    color: "#454D65"
+  },
+  timestamp: {
+    fontSize: 11,
+    color: "#C4C6CE",
+    marginTop: 4
+  },
+  post: {
+    marginTop: 16,
+    fontSize: 14,
+    color: "#838899"
+  },
+  postImage: {
+    width: undefined,
+    height: 60,
+    borderRadius: 5,
+    marginVertical: 10
+  }
+});

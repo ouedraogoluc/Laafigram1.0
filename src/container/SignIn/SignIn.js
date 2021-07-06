@@ -102,7 +102,7 @@ const SignIn = ({navigation})=> {
                     >Sign In</Text>
                 </View>
                 <Text
-                    onPress={()=>navigation.navigate('Signup')}
+                    onPress={()=>navigation.navigate('RegisterHome')}
                     style={{
                         alignSelf: "center",
                         color: "#00716F",

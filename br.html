@@ -1,506 +1,548 @@
-import React, { useEffect, useState } from 'react'
-import { StyleSheet, Text, View, TextInput, Button } from 'react-native'
-import { db, auth } from '../../firebase/config';
-import Icon from '@expo/vector-icons/AntDesign';
+import React, { useState, useEffect ,Component} from 'react';
+import { ActivityIndicator, StyleSheet,FlatList,Image, View, Text,SafeAreaView,ScrollView  } from 'react-native';
 import firebase from 'firebase'
 import "firebase/firestore";
-import FormInput from '../inputForm/FormInput';
-import FormButton from '../button/FormButton';
-import RNPickerSelect from 'react-native-picker-select';
-const Profile = ({ navigation }) => {
-    const [ loading, setLoading ] = useState(true);
-    const [profile, setProfile] = useState('')
-    const [address, setAddress] = useState("");
-    const [genre, setGenre] = useState("");
-    const [pays, setPays] = useState("");
-    const [dateNaiss, setDateNaiss] = useState("");
-    const [city, setCity] = useState("");
-    const [formation, setFormation] = useState("");
-    const [number, setNumber] = useState("");
-    const [experience, setExperience] = useState("");
-    const [specialite, setSpecialite] = useState("");
-    const [groupeSanguin, setGroupeSsnguin] = useState("");
-    const [poids, setPoids] = useState("");
-    const [niveauEtude, setNiveauEtude] = useState("");
-    const [department, setDepartment] = useState("");
-    useEffect(() => {
-        db
-            .collection('users')
-            .doc(firebase.auth().currentUser.uid)
-            .get()
-            .then(docSnap => {
-                setProfile(docSnap.data())
-            })
-    }, [])
-    if (profile.profile == "patient") {
-        const createPatient = async () => {
-            await db.collection("patients")
-                .add({
-                    number: number,
-                    groupeSanguin: groupeSanguin,
-                    address: address,
-                    city: city,
-                    dateNaiss: dateNaiss,
-                    genre: genre,
-                    poids: poids,
-                    pays:pays
-                })
-                .then(() => {
-                    navigation.goBack();
-                    
-                })
-                .catch((error) => alert(error));
-        }
-        return (
-            <View style={styles.container}>
-                <Text style={styles.text}>Veillez completer votre compte svp</Text>
-                <FormInput
-                    value={number}
-                    onChangeText={(text) => setNumber(text)}
-                    onSubmitEditing={createPatient}
-                    placeholderText="numero"
-                    iconType="phone"
-                    keyboardType="email-address"
-                    autoCapitalize="none"
-                    autoCorrect={false}
-                />
-
-                <FormInput
-                    value={groupeSanguin}
-                    onChangeText={(text) => setGroupeSsnguin(text)}
-                    onSubmitEditing={createPatient} placeholderText="group sanguin"
-                    iconType="blood"
-                  
-                />
-
-                <FormInput
-                    value={address}
-                    onChangeText={(text) => setAddress(text)}
-                    onSubmitEditing={createPatient} placeholderText="Adress"
-                    iconType="locate"
-                   
-                />
-
-                <FormInput
-                    value={city}
-                    onChangeText={(text) => setCity(text)}
-                    onSubmitEditing={createPatient} placeholderText="ville"
-                    iconType="city"
-
-                />
-
-               
-                    <RNPickerSelect
-                    onValueChange={(value) => setGenre(value)}
-                    items={[
-                        { label: 'M', value: 'M' },
-                        { label: 'F', value: 'F' },
-                    ]}
-                />
-
-                <FormInput
-                    value={dateNaiss}
-                    onChangeText={(text) => setDateNaiss(text)}
-                    onSubmitEditing={createPatient} placeholderText="Confirm Password"
-                    iconType="birth"
-                    
-                />
-                     <RNPickerSelect
-                    onValueChange={(value) => setPays(value)}
-                    items={[
-                        { label: 'Burkina', value: 'Burkina' },
-                    ]}
-                />
-                   <FormInput
-                    value={poids}
-                    onChangeText={(text) => setPoids(text)}
-                    onSubmitEditing={createPatient} placeholderText="poids"
-                    iconType="city"
-                    />
-                <FormButton
-                    buttonTitle="Valider"
-                    onPress={createPatient}
-                />
-            </View>
-        )
-    } else if (profile.profile == "doctor") {
-        return (
-            <View>
-                <Text style={styles.text}>doctor</Text>
-                <View style={{
-                    flexDirection: "row",
-                    alignItems: "center",
-                    marginHorizontal: 55,
-                    borderWidth: 2,
-                    marginTop: 50,
-                    paddingHorizontal: 10,
-                    borderColor: "#00716F",
-                    borderRadius: 23,
-                    paddingVertical: 2
-                }}>
-                    <Icon name="mail" color="#00716F" size={24} />
-                    <TextInput
-                        style={{ paddingHorizontal: 10 }}
-                        placeholder="departement"
-                        placeholderTextColor="#00716F"
-                    />
-                </View>
-            </View>
-        )
-    } else {
-        return (
-            <View>
-                <Text style={styles.text}>medical</Text>
-                <View style={{
-                    flexDirection: "row",
-                    alignItems: "center",
-                    marginHorizontal: 55,
-                    borderWidth: 2,
-                    marginTop: 50,
-                    paddingHorizontal: 10,
-                    borderColor: "#00716F",
-                    borderRadius: 23,
-                    paddingVertical: 2
-                }}>
-                    <Icon name="mail" color="#00716F" size={24} />
-                    <TextInput
-                        style={{ paddingHorizontal: 10 }}
-                        placeholder="localiter"
-                        placeholderTextColor="#00716F"
-                    />
-                </View>
-            </View>
-        )
-    }
-
-}
-
-export default Profile
-
-const styles = StyleSheet.create({
-    container: {
-        backgroundColor: '#f9fafd',
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        padding: 20,
-    },
-    text: {
-        fontFamily: 'Kufam-SemiBoldItalic',
-        fontSize: 28,
-        marginBottom: 10,
-        color: '#051d5f',
-    },
-    navButton: {
-        marginTop: 15,
-    },
-    navButtonText: {
-        fontSize: 18,
-        fontWeight: '500',
-        color: '#2e64e5',
-        fontFamily: 'Lato-Regular',
-    },
-    textPrivate: {
-        flexDirection: 'row',
-        flexWrap: 'wrap',
-        marginVertical: 35,
-        justifyContent: 'center',
-    },
-    color_textPrivate: {
-        fontSize: 13,
-        fontWeight: '400',
-        fontFamily: 'Lato-Regular',
-        color: 'grey',
-    },
-});
-<Picker.Item label="O-" value="O-" />
-<Picker.Item label="A-" value="A-" />
-<Picker.Item label="A+" value="A+" />
-<Picker.Item label="AB+" value="AB+" />
-<Picker.Item label="B+" value="B+" />
-<Picker.Item label="B-" value="B-" />
-<Picker.Item label="AB-" value="AB-" />
-
-
-
-
-
-
-
-
-import React, { useEffect, useState } from 'react'
+import Fire from '../post/Fire';
+import { db, auth } from '../../firebase/config';
+import { Ionicons, Feather , SimpleLineIcons } from '@expo/vector-icons';
 import {
-    View,
-    Text,
-    Image,
-    TouchableOpacity,
-    StyleSheet,
-    ScrollView,
-    SafeAreaView,
-    TextInput,
-    KeyboardAvoidingView,
-    TouchableHighlight,
-    Picker
+  Avatar,
+  Title,
+  Caption,
 
-} from 'react-native';
-import { db, auth } from '../../firebase/config';
-import firebase from 'firebase'
-import "firebase/firestore";
-import RadioForm, { RadioButton, RadioButtonInput, RadioButtonLabel } from 'react-native-simple-radio-button';
-import DatePicker from 'react-native-datepicker'
-import FormInput from '../inputForm/FormInput';
-const ComplteProfileUser = (props) => {
-    const initalState = {
-        genre: "",
-        dateNaiss: "",
-        formation: "",
-        experience: "",
-        groupeSanguin: "",
-        niveauEtude: "",
-        poids: "",
-        department: "",
-        specialite: "",
+  TouchableRipple,
+
+} from 'react-native-paper';
+import { ListItem } from 'react-native-elements'
+import {Container,Card,UserInfo,UserImg,
+  UserInfoText,
+  UserName,
+  PostTime,
+  PostText,
+  PostImg,
+  Divider,
+  Interaction,
+  InteractionText,
+  InteractionWrapper
+
+} from '../../container/dashboad/style/HomeStyle'
+
+export default class DoctorList extends Component {
+  
+  constructor() {
+    super();
+    this.firestoreRef = firebase.firestore().collection('users');
+    this.state = {
+      isLoading: true,
+      userArr: []
     };
-    const [profile, setProfile] = useState('')
-    const [loading, setLoading] = useState(true);
-    const [selectedValue, setSelectedValue] = useState("O-");
+  }
+  
+  componentDidMount() {
+    this.unsubscribe = this.firestoreRef.onSnapshot(this.getCollection);
+  }
 
-    const [radio_props, setradio_props] = useState("");
+  componentWillUnmount(){
+    this.unsubscribe();
+  }
+  getCollection = (querySnapshot) => {
+    const userArr = [];
+    querySnapshot.forEach((res) => {
+      const { name, email, number,formation, specialite,
+        experience,
+        niveauEtude,
+        department,
+        profile
+       }
+         = res.data();
+        userArr.push({
+        key: res.id,
+        res,
+        name,
+        email,
+        formation,
+        specialite,
+        experience,
+        niveauEtude,
+        department,
+        profile,
+        number
+      });
+    });
+    this.setState({
+      userArr,
+      isLoading: false,
+   });
+  }
+  render() {
+    if(this.state.isLoading){
+      return(
 
-    useEffect(() => {
-        db.collection('users')
-            .doc(firebase.auth().currentUser.uid)
-            .get()
-            .then(docSnap => {
-                setProfile(docSnap.data())
-            })
-    }, [])
-    if (profile.profile == "patient") {
-        return (
-            <ScrollView>
-                <KeyboardAvoidingView style={styles.container} enabled>
-                <View style={styles.row}>
-                        <Text style={styles.label}>genre</Text>
-                        <Picker
-                            selectedValue={selectedValue}
-                            style={{ height: 50, width: 150 }}
-                            onValueChange={(itemValue, itemIndex) => setSelectedValue(itemValue)}
-                        >
-                            <Picker.Item label="M" value="M" />
-                            <Picker.Item label="F" value="F" />
-                        </Picker>
+        <View style={styles.preloader}>
+          <ActivityIndicator size="large" color="#9E9E9E"/>
+        </View>
+      )
+    }  
+    return (
+      <ScrollView style={styles.container}>
+                {
+                   this.state.userArr.map((item, i) => {
+                     return(
+                      <FlatList
+                  key={i}
+                  chevron
+                  bottomDivider
+                  title={item.name}
+                  subtitle={item.email}
+                  onPress={() => {
+                    this.props.navigation.navigate('Rdv', {
+                      userkey: item.key
+                    });
+                  }}/>
+                     )
 
-                    </View>
-                    <View style={styles.row}>
-                        <Text style={styles.label}>dateNaiss</Text>
-                    </View>
+                   })
+                }
+         </ScrollView>
+        
 
-                    <FormInput
-                       placeholderText="Email"
-                       iconType="user"
-                       keyboardType="email-address"
-                    />
-                      <FormInput
-                       placeholderText="poids"
-                       iconType="user"
-                       keyboardType="email-address"
-                    />
-                    
-                    <View style={styles.row}>
-                        <Text style={styles.label}>groupeSanguin</Text>
-                        <Picker
-                            selectedValue={selectedValue}
-                            style={{ height: 50, width: 150 }}
-                            onValueChange={(itemValue, itemIndex) => setSelectedValue(itemValue)}
-                        >
-                            <Picker.Item label="O-" value="O-" />
-                            <Picker.Item label="A-" value="A-" />
-                            <Picker.Item label="A+" value="A+" />
-                            <Picker.Item label="AB+" value="AB+" />
-                            <Picker.Item label="B+" value="B+" />
-                            <Picker.Item label="B-" value="B-" />
-                            <Picker.Item label="AB-" value="AB-" />
-                        </Picker>
-
-                    </View>
-                </KeyboardAvoidingView>
-            </ScrollView>
-
-
-        )
-    } else if (profile.profile == "doctor") {
-        return (
-            <View>
-                <Text style={styles.text}>nom - {profile.name}</Text>
-                <Text style={styles.text}>address - {profile.email}</Text>
-
-                <Text style={styles.text}>type - {profile.profile}</Text>
-            </View>
-        )
-    } else {
-        return (
-            <View>
-                <Text style={styles.text}>nom - {profile.name}</Text>
-                <Text style={styles.text}>address - {profile.email}</Text>
-                <Text style={styles.text}>type - {profile.profile}</Text>
-            </View>
-        )
-    }
-
+    )
+  }
 }
 
-export default ComplteProfileUser
-
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        padding: 20
-    },
-    row: {
-        marginBottom: 20,
-    },
-    label: {
-        fontSize: 20
-    },
-    textInput: {
-        height: 40,
-        borderWidth: 0,
-
-
-    },
-    btnContainer: {
-        backgroundColor: '#1A8',
-        padding: 10,
-        alignItems: 'center',
-    },
-    txtButton: {
-        fontSize: 20,
-        color: "#fff"
-    }
+  container: {
+   flex: 1,
+   paddingBottom: 22
+  },
+  preloader: {
+    left: 0,
+    right: 0,
+    top: 0,
+    bottom: 0,
+    position: 'absolute',
+    alignItems: 'center',
+    justifyContent: 'center'
+  }
 })
-  if (this.state.isLoading) {
-            return (
-                <View style={styles.preloader}>
-                    <ActivityIndicator size="large" color="#9E9E9E" />
-                </View>
-            )
-        }
-        import React,{useLayoutEffect } from 'react'
-import { StyleSheet,TouchableOpacity, Text, View ,ScrollView,FlatList} from 'react-native'
-import { Ionicons, AntDesign,SimpleLineIcons } from '@expo/vector-icons';
-import { db, auth } from '../../firebase/config';
+
+
+// screens/UserDetailScreen.js
+
+import React, { Component } from 'react';
+import { Alert, Button, StyleSheet, TextInput, ScrollView, ActivityIndicator, View } from 'react-native';
 import firebase from 'firebase'
 import "firebase/firestore";
-import {Container} from './style/HomeStyle'
-import PostCard from './PostCard'
-const Posts = [
-  {
-    id: '1',
-    userName: 'Dr Betina',
-    userImg: require('../../../images/doc1.jpg'),
-    postTime: '4 mins ago',
-    post:
-      'Covid-19 : situation dégradée dans les Landes, Jean Castex et Olivier Véran s’y rendent jeudi.',
-    postImg: require('../../../images/doc1.jpg'),
-    liked: true,
-    likes: '14',
-    comments: '5',
-    shart: '23',
+class Rdv extends Component {
+
+  constructor() {
+    super();
+    this.state = {
+      name: '',
+      email: '',
+      profile: '',
+      isLoading: true
+    };
+  }
+ 
+  componentDidMount() {
+    const dbRef = firebase.firestore().collection('users').doc(this.props.route.params.userkey)
+    dbRef.get().then((res) => {
+      if (res.exists) {
+        const user = res.data();
+        this.setState({
+          key: res.id,
+          name: user.name,
+          email: user.email,
+          profile: user.profile,
+          isLoading: false
+        });
+      } else {
+        console.log("Document does not exist!");
+      }
+    });
+  }
+
+  inputValueUpdate = (val, prop) => {
+    const state = this.state;
+    state[prop] = val;
+    this.setState(state);
+  }
+
+  updateUser() {
+    this.setState({
+      isLoading: true,
+    });
+    const updateDBRef = firebase.firestore().collection('users').doc(this.state.key);
+    updateDBRef.set({
+      name: this.state.name,
+      email: this.state.email,
+      profile: this.state.profile,
+    }).then((docRef) => {
+      this.setState({
+        key: '',
+        name: '',
+        email: '',
+        profile: '',
+        isLoading: false,
+      });
+      this.props.navigation.navigate('UserScreen');
+    })
+    .catch((error) => {
+      console.error("Error: ", error);
+      this.setState({
+        isLoading: false,
+      });
+    });
+  }
+
+  deleteUser() {
+    const dbRef = firebase.firestore().collection('users').doc(this.props.route.params.userkey)
+      dbRef.delete().then((res) => {
+          console.log('Item removed from database')
+          this.props.navigation.navigate('UserScreen');
+      })
+  }
+
+  openTwoButtonAlert=()=>{
+    Alert.alert(
+      'Delete User',
+      'Are you sure?',
+      [
+        {text: 'Yes', onPress: () => this.deleteUser()},
+        {text: 'No', onPress: () => console.log('No item was removed'), style: 'cancel'},
+      ],
+      { 
+        cancelable: true 
+      }
+    );
+  }
+
+  render() {
+    if(this.state.isLoading){
+      return(
+        <View style={styles.preloader}>
+          <ActivityIndicator size="large" color="#9E9E9E"/>
+        </View>
+      )
+    }
+    return (
+      <ScrollView style={styles.container}>
+        <View style={styles.inputGroup}>
+          <TextInput
+              placeholder={'Name'}
+              value={this.state.name}
+              onChangeText={(val) => this.inputValueUpdate(val, 'name')}
+          />
+        </View>
+        <View style={styles.inputGroup}>
+          <TextInput
+              multiline={true}
+              numberOfLines={4}
+              placeholder={'Email'}
+              value={this.state.email}
+              onChangeText={(val) => this.inputValueUpdate(val, 'email')}
+          />
+        </View>
+        <View style={styles.inputGroup}>
+          <TextInput
+              placeholder={'Mobile'}
+              value={this.state.profile}
+              onChangeText={(val) => this.inputValueUpdate(val, 'profile')}
+          />
+        </View>
+        <View style={styles.button}>
+          <Button
+            title='Update'
+            onPress={() => this.updateUser()} 
+            color="#19AC52"
+          />
+          </View>
+         <View>
+          <Button
+            title='Delete'
+            onPress={this.openTwoButtonAlert}
+            color="#E37399"
+          />
+        </View>
+      </ScrollView>
+    );
+  }
+}
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    padding: 35
   },
-  {
-    id: '2',
-    userName: 'Dr Wanda',
-    userImg: require('../../../images/doc2.jpg'),
-    postTime: '2 hours ago',
-    post:
-      'Covid-19 : situation dégradée dans les Landes, Jean Castex et Olivier Véran s’y rendent jeudi.',
-      postImg: require('../../../images/doc6.jpg'),
-    liked: false,
-    likes: '8',
-    comments: '0',
-    shart: '23',
+  inputGroup: {
+    flex: 1,
+    padding: 0,
+    marginBottom: 15,
+    borderBottomWidth: 1,
+    borderBottomColor: '#cccccc',
   },
-  {
-    id: '3',
-    userName: 'Dr Bencé',
-    userImg: require('../../../images/doc4.jpg'),
-    postTime: '1 hours ago',
-    post:
-      'Covid-19 : situation dégradée dans les Landes, Jean Castex et Olivier Véran s’y rendent jeudi.',
-    postImg: require('../../../images/malaria3.jpg'),
-    liked: true,
-    likes: '1',
-    comments: '0',
-    shart: '23',
+  preloader: {
+    left: 0,
+    right: 0,
+    top: 0,
+    bottom: 0,
+    position: 'absolute',
+    alignItems: 'center',
+    justifyContent: 'center'
   },
-  {
-    id: '4',
-    userName: 'Dr Augusto Bassam',
-    userImg: require('../../../images/doc4.jpg'),
-    postTime: '1 day ago',
-    post:
-      'Covid-19 : situation dégradée dans les Landes, Jean Castex et Olivier Véran s’y rendent jeudi.',
-      postImg: require('../../../images/malaria3.jpg'),
-    liked: true,
-    likes: '22',
-    comments: '4',
-    shart: '23',
-  },
-  {
-    id: '5',
-    userName: 'Dr Ibombo',
-    userImg: require('../../../images/doc6.jpg'),
-    postTime: '2 days ago',
-    post:
-      'Covid-19 : situation dégradée dans les Landes, Jean Castex et Olivier Véran s’y rendent jeudi.',
-      postImg: require('../../../images/doc4.jpg'),
-    liked: false,
-    likes: '0',
-    comments: '0',
-    shart: '23',
-  },
-  {
-    id: '6',
-    userName: 'Dr Ogueye',
-    userImg: require('../../../images/doc6.jpg'),
-    postTime: '2 days ago',
-    post:
-      'Covid-19 : situation dégradée dans les Landes, Jean Castex et Olivier Véran s’y rendent jeudi.',
-      postImg: require('../../../images/doc4.jpg'),
-    liked: false,
-    likes: '60',
-    comments: '90',
-    shart: '230',
-  },
-  {
-    id: '7',
-    userName: 'Henry',
-    userImg: require('../../../images/doc6.jpg'),
-    postTime: '2 days ago',
-    post:
-      'Covid-19 : situation dégradée dans les Landes, Jean Castex et Olivier Véran s’y rendent jeudi.',
-      postImg: 'none',
-    liked: false,
-    likes: '457',
-    comments: '28',
-    shart: '23',
-  },
-];
-const HomeScreen = () => {
+  button: {
+    marginBottom: 7, 
+  }
+})
+
+export default Rdv;
+
+
+
+
+
+
+
+
+
+
+<SafeAreaView style={{flex: 1, backgroundColor: '#fff'}}>
+  <ScrollView 
+   style={styles.container}
+ contentContainerStyle={{justifyContent: 'center', alignItems: 'center'}}
+ showsVerticalScrollIndicator={false}>
+    <Image
+   style={styles.userImg}
+   source={{
+     uri: 'https://img.freepik.com/vecteurs-libre/contexte-du-docteur_1270-84.jpg?size=338&ext=jpg&ga=GA1.2.699125266.1619654400',
+ }}/>
+   <Text style={styles.userName}>luc</Text>  
+ <Text style={styles.aboutUser}>
+ 
+ </Text>
+ <View style={styles.userBtnWrapper}>
+ <TouchableOpacity style={styles.userBtn} onPress={() => {}}>
+         <Text style={styles.userBtnTxt}>Message</Text>
+       </TouchableOpacity>
+       <TouchableOpacity style={styles.userBtn} onPress={() => {}}>
+         <Text style={styles.userBtnTxt}>Follow</Text>
+       </TouchableOpacity>
+       
+ </View>
+
+ <View style={styles.userInfoWrapper}>
+   <View style={styles.userInfoItem}>
+     <Text style={styles.userInfoTitle}>ook</Text>
+     <Text style={styles.userInfoSubTitle}>Posts</Text>
+   </View>
+   <View style={styles.userInfoItem}>
+     <Text style={styles.userInfoTitle}>10,000</Text>
+     <Text style={styles.userInfoSubTitle}>Followers</Text>
+   </View>
+   <View style={styles.userInfoItem}>
+     <Text style={styles.userInfoTitle}>100</Text>
+     <Text style={styles.userInfoSubTitle}>Following</Text>
+   </View>
+ </View>
+ <View style={styles.action}>
+   <FontAwesome name="globe" color="#333333" size={20} />
+   <TextInput
+     placeholder="Country"
+     placeholderTextColor="#666666"
+     autoCorrect={false}
+     style={styles.textInput}
+   />
+ </View>
+  </ScrollView>
+</SafeAreaView>
+
+Lorem ipsum dolor sit amet, consectetur adipisicing elit. Obcaecati cumque consequatur consequuntur modi. Consectetur voluptas ipsam nostrum facilis impedit veritatis dolorum ratio
+
+import React, { useLayoutEffect, useState,useEffect  } from 'react'
+import { Ionicons, AntDesign, SimpleLineIcons } from '@expo/vector-icons';
+import { StatusBar } from "expo-status-bar";
+import { StyleSheet, Text, SafeAreaView, TextInput, ScrollView, TouchableWithoutFeedback, TouchableOpacity, View, Platform, KeyboardAvoidingView, Keyboard } from 'react-native';
+
+import { ListItem, Avatar } from 'react-native-elements'
+import { db, auth } from '../../firebase/config';
+import * as firebase from 'firebase'
+
+import "firebase/firestore";
+
+
+const ChatHome = ({ navigation, route }) => {
+    const [input, setInput] = useState("");
+    const [messages, setMessages] = useState("");
+    useLayoutEffect(() => {
+
+        navigation.setOptions({
+            title: 'Chat',
+            headerBackTitleVisible: false,
+            headerTitleAlign: 'left',
+            headerTitleStyle: { color: "#fff" },
+            headerStyle: { backgroundColor: '#00716F' },
+            hearderTintColor: "#fff",
+            headerTitle: () => (
+                <View
+                    style={{
+                        flexDirection: "row",
+                        alignItems: "center"
+                    }}>
+                    <Avatar
+                        rounded
+                        source={{
+                            uri:
+                                "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.echosdunet.net%2Fdossiers%2Fmeilleur-smartphone%2Fphoto&psig=AOvVaw27qfuPchPy2GKSIWZW8x8B&ust=1621457538907000&source=images&cd=vfe&ved=0CAIQjRxqFwoTCLDMzaSA1PACFQAAAAAdAAAAABAD",
+                        }}
+                    />
+                    <Text
+                        style={{ color: "white", marginLeft: 10, fontWeight: '700' }}
+                    >{route.params.ChatName}</Text>
+
+                </View>
+            ),
+            headerRight: () => (
+                <View style={{
+                    flexDirection: 'row',
+                    justifyContent: 'space-between',
+                    width: 80,
+                    marginRight: 20
+
+                }}>
+                    <TouchableOpacity activeOpacity={0.5}>
+                        <AntDesign name='phone' size={24} color='#fff' />
+                    </TouchableOpacity>
+
+                    <TouchableOpacity activeOpacity={0.5}>
+                        <Ionicons name='ios-videocam' size={24} color='#fff' />
+                    </TouchableOpacity>
+                </View>
+            ),
+        })
+
+    }, [navigation])
+
+    const sendMessage = () => {
+        Keyboard.dismiss();
+        db.collection('chats').doc(route.params.id).collection('messages').add({
+            //timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+            message: input,
+            displayName: auth.currentUser.displayName,
+            email: auth.currentUser.email,
+        })
+        setInput('')
+    };
+   /*  useLayoutEffect(() => {
+        const unsubscribe = db
+            .collection('chats').doc(route.params.id)
+            .collection('messages')
+            .onSnapshot((snapshot) => setMessages(snapshot.docs.map(doc => ({
+                    id: doc.id,
+                    data: doc.data()
+                }))
+            ));
+        return unsubscribe;
+    }, [route])
+     */
+    useLayoutEffect(() => {
+    const unsubscribe = db
+    .collection('chats').doc(route.params.id)
+    .collection('messages')
+      .onSnapshot((snapshot) => {
+        setMessages(snapshot.docs.map(doc => ({
+          id: doc.id,
+          data: doc.data()
+        })))
+      })
+    return unsubscribe
+  }, [route])
   
     return (
-        <Container >
-         <FlatList
-            data={Posts}
-            renderItem={({item}) => <PostCard item={item}/>}
-            keyExtractor={item=>item.id}
-            showsVerticalScrollIndicator={false}
-         />
-        </Container>
+        <SafeAreaView style={{ flex: 1, backgroundColor: 'white' }}>
+            <StatusBar style='light' />
+            <KeyboardAvoidingView
+                behavior={Platform.OS === "ios" ? "padding" : "height"}
+                style={styles.container}
+                KeyboardVerticalOffset={90}
+            >
+                <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+                    <>
+                        <ScrollView>
+                            {/* {messages.map(({ id, data }) => 
+                                data.email === auth.currentUser.email ? (
+                                    <View key={id} style={styles.receiver}>
+                                        <Text style={styles.receiverText}>{data.message}</Text>
+                                    </View>
+                                ) : (
+                                    <View style={styles.sender}>
+                                        <Avatar
+                                            rounded
+                                            source={{
+                                                uri:
+                                                    "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.echosdunet.net%2Fdossiers%2Fmeilleur-smartphone%2Fphoto&psig=AOvVaw27qfuPchPy2GKSIWZW8x8B&ust=1621457538907000&source=images&cd=vfe&ved=0CAIQjRxqFwoTCLDMzaSA1PACFQAAAAAdAAAAABAD",
+                                            }}
+                                        />
+                                        <Text style={styles.sendText}>{data.message}</Text>
+                                    </View>
+
+                                )
+                            )} */}
+                        </ScrollView>
+
+                        <View style={styles.footer}>
+                            <TextInput
+                                value={input}
+                                onChangeText={(text) => setInput(text)}
+                                onSubmitEditing={sendMessage}
+                                placeholder="Taper message"
+                                style={styles.textInput}
+                            />
+                            <TouchableOpacity onPress={sendMessage}
+                                activeOpacity={0.5}
+                            >
+                                <Ionicons name="send" size={24} color="#2B68E6" />
+                            </TouchableOpacity>
+                        </View>
+                    </>
+                </TouchableWithoutFeedback>
+            </KeyboardAvoidingView>
+        </SafeAreaView>
     )
 }
 
-export default HomeScreen
+export default ChatHome
 
-const styles = StyleSheet.create({})
- 
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+    },
+    receiver:{
+      padding:15,
+      backgroundColor:"#ECECEC",
+      alignSelf:"flex-end",
+      borderRadius:20,
+      marginRight:15,
+      marginBottom:20,
+      maxHeight:"80%",
+      position:'relative',
+    },
+    footer: {
+        flexDirection: "row",
+        alignItems: 'center',
+        width: "100%",
+        padding: 15,
+    },
+    textInput: {
+        bottom: 0,
+        height: 40,
+        flex: 1,
+        marginRight: 15,
+        //  borderColor:"transparent" ,
+        backgroundColor: "#ECECEC",
+        // borderWidth:1,
+        padding: 10,
+        color: "grey",
+        borderRadius: 30,
+    }
+})
