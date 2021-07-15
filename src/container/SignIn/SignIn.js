@@ -20,9 +20,9 @@ const SignIn = ({navigation})=> {
     return unsubscribe;
     }, [])
     const signIn =()=>{
-      auth
-      .signInWithEmailAndPassword(email,password)
-      .catch((error)=>alert(error));
+        auth
+        .signInWithEmailAndPassword(email,password)
+        .catch((error)=>alert(error));
     }
         return (
             <View style={{ backgroundColor: "#FFF", height: "100%" }}>

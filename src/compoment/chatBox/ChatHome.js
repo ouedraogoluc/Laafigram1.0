@@ -12,7 +12,7 @@ import {
     View,
 } from "react-native";
 import { Avatar } from "react-native-elements";
-import { SafeAreaView } from "react-native";
+import { SafeAreaView, Image } from "react-native";
 import * as firebase from "firebase";
 import { db, auth } from '../../firebase/config';
 const ChatScreen = ({ navigation, route }) => {
@@ -33,13 +33,8 @@ const ChatScreen = ({ navigation, route }) => {
                         flexDirection: "row",
                         alignItems: "center"
                     }}>
-                    <Avatar
-                        rounded
-                        source={{
-                            uri:
-                                "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.echosdunet.net%2Fdossiers%2Fmeilleur-smartphone%2Fphoto&psig=AOvVaw27qfuPchPy2GKSIWZW8x8B&ust=1621457538907000&source=images&cd=vfe&ved=0CAIQjRxqFwoTCLDMzaSA1PACFQAAAAAdAAAAABAD",
-                        }}
-                    />
+                    <Image source={require('../../../images/doc2.jpg')} style={styles.avatar} />
+
                     <Text
                         style={{ color: "white", marginLeft: 10, fontWeight: '700' }}
                     >{route.params.ChatName}</Text>
@@ -105,26 +100,16 @@ const ChatScreen = ({ navigation, route }) => {
                             {messages.map(({ id, data }) =>
                                 data.email === auth.currentUser.email ? (
                                     <View key={id} style={styles.reciever}>
-                                        <Avatar
-                                            rounded
-                                            source={{
-                                                uri:
-                                                    "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.echosdunet.net%2Fdossiers%2Fmeilleur-smartphone%2Fphoto&psig=AOvVaw27qfuPchPy2GKSIWZW8x8B&ust=1621457538907000&source=images&cd=vfe&ved=0CAIQjRxqFwoTCLDMzaSA1PACFQAAAAAdAAAAABAD",
-                                            }}
-                                        />
+                                        <Image source={require('../../../images/doc2.jpg')} style={styles.avatar} />
+
                                         <Text style={styles.recieverText}>{data.message}</Text>
                                     </View>
                                 ) : (
                                     <View key={id} style={styles.sender}>
-                                        <Avatar
-                                            rounded
-                                            source={{
-                                                uri:
-                                                    "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.echosdunet.net%2Fdossiers%2Fmeilleur-smartphone%2Fphoto&psig=AOvVaw27qfuPchPy2GKSIWZW8x8B&ust=1621457538907000&source=images&cd=vfe&ved=0CAIQjRxqFwoTCLDMzaSA1PACFQAAAAAdAAAAABAD",
-                                            }}
-                                        />
+                                        <Image source={require('../../../images/doc2.jpg')} style={styles.avatar} />
+
                                         <Text style={styles.senderText}>{data.message}</Text>
-                                        <Text style={styles.senderName}>{data.displayName}</Text>
+                                        <Text style={styles.senderName}>{data.email}</Text>
                                     </View>
                                 )
                             )}
@@ -186,6 +171,12 @@ const styles = StyleSheet.create({
         borderRadius: 20,
         margin: 15,
         position: "relative",
+    },
+    avatar: {
+        width: 36,
+        height: 36,
+        borderRadius: 18,
+        marginRight: 16
     },
     senderName: {
         left: 10,

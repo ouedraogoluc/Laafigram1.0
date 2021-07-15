@@ -75,7 +75,7 @@ const DoctorList = ({ navigation }) => {
               <UserInfo>
                 <Image source={require('../../../images/doc2.jpg')} style={styles.avatar} />
                 <UserInfoText>
-                  <UserName>{item.displayName}</UserName>
+                  <UserName>{item.name}</UserName>
                   <PostTime>{item.email}</PostTime>
                 </UserInfoText>
               </UserInfo>

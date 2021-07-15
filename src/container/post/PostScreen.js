@@ -5,6 +5,7 @@ import Constants from 'expo-constants';
 import * as Permissions from 'expo-permissions'
 //import { Camera } from 'expo-camera';
 import * as ImagePicker from 'expo-image-picker';
+import { Camera } from 'expo-camera';
 import firebase from 'firebase'
 import "firebase/firestore";
 import Fire from './Fire';
@@ -13,7 +14,8 @@ import {db,auth} from '../../firebase/config';
 export class PostScreen extends Component {
     state = {
         text:"",
-        image: null
+        image: null,
+        email: auth.currentUser.email,
     };
     componentDidMount(){
         this.getPhotoPermission();
@@ -28,9 +30,14 @@ export class PostScreen extends Component {
         }
     };
     handlePost=()=>{
-        Fire.shared.addPost({text:this.state.text.trim(),localUri:this.state.image}).then(ref=>{
+        
+        Fire.shared.addPost({
+            text:this.state.text.trim(),
+            email:this.state.email.trim(),
+            localUri:this.state.image}).then(ref=>{
             this.setState({text:"",
             image:null,
+            email: auth.currentUser.email,
             creation: firebase.firestore.FieldValue.serverTimestamp()
         });
             this.props.navigation.goBack();
@@ -49,10 +56,10 @@ export class PostScreen extends Component {
             this.setState({image:result.uri});
         }
     }
+
     render() {
         return (
             <SafeAreaView style ={styles.container}>
-                
                 <View style={styles.header}>
                 <TouchableOpacity onPress={()=>this.props.navigation.goBack()} >
                     <Ionicons name="md-arrow-back" size={24} color="#D8D9DB"></Ionicons>

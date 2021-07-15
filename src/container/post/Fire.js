@@ -6,16 +6,22 @@ require('firebase/firestore')
 class Fire{
     
     addPost = async({ text,localUri})=>{
+       
+        const uid = auth.currentUser.uid
         const removeUri = await this.uploadPhotoAsync(localUri)
+        console.log('****************************************',auth.currentUser);
         return new Promise((res,rej)=>{
-            this.firestore.collection("users")
-            .doc(this.uid)
-            .collection("posts")
+            this.firestore.collection("posts")
+           /*  .doc(this.uid)
+            .collection("posts") */
             .add({
                 text,
-                uid:this.uid,
+                createdAt: new Date().toISOString(),
+                //creation: firebase.firestore.FieldValue.serverTimestamp(),
+                email: auth.currentUser.email,
                 timestamp:this.timestamp,
-                image:removeUri
+                image:removeUri,
+                
             })
             .then(ref=>{
                 res(ref)
@@ -23,7 +29,7 @@ class Fire{
         })
     }
      uploadPhotoAsync = async uri =>{
-        const path = `photos/${this.uid}/${Date.now()}.jpg`
+        const path = `photos/${firebase.auth().currentUser.uid}/${Math.random().toString(36)}/${Date.now()}`
         return new Promise(async(res,rej)=>{
             //L' await opérateur est utilisé pour attendre un Promise
             const response  = await fetch(uri)

@@ -192,7 +192,7 @@ import CustomListItem from './CustomListItem'
 import { auth, db } from '../../firebase/config'
 const ChatScreen = ({ navigation }) => {
   const [chats, setChats] = useState([]);
-  
+
   useEffect(() => {
     const unsubscribe = db
       .collection('chats')
@@ -230,8 +230,8 @@ const ChatScreen = ({ navigation }) => {
       ),
     });
   }, [navigation]);
-  const enterChat=(id,ChatName)=>{
-    navigation.navigate('ChatHome',{
+  const enterChat = (id, ChatName) => {
+    navigation.navigate('ChatHome', {
       id,
       ChatName
     })
@@ -246,13 +246,13 @@ const ChatScreen = ({ navigation }) => {
         </TouchableOpacity>
       </View>
       <ScrollView>
-           {chats.map(({id,data:{ChatName}})=>(
-                <CustomListItem  key={id} 
-                id={id} 
-                ChatName={ChatName} 
-                enterChat={enterChat}
-                />
-           ))}
+        {chats.map(({ id, data: { ChatName } }) => (
+          <CustomListItem key={id}
+            id={id}
+            ChatName={ChatName}
+            enterChat={enterChat}
+          />
+        ))}
       </ScrollView>
     </SafeAreaView>
   )
@@ -261,8 +261,8 @@ const ChatScreen = ({ navigation }) => {
 export default ChatScreen
 
 const styles = StyleSheet.create({
-  container:{
-     height:'100%'  
+  container: {
+    height: '100%'
   },
   input: {
     width: '100%',

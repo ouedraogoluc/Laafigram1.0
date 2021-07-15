@@ -3,20 +3,15 @@ import { StyleSheet, Text, View } from 'react-native'
 import More from '../compoment/more/More'
 import Profile from '../compoment/profile/Profile'
 import PostScreen from '../container/post/PostScreen'
-import HoraideDoctor from '../container/doctor/HoraideDoctor'
+import createHoraideDoctor from '../horaires/screen/createHoraideDoctor'
 import ListHoraire from '../container/doctor/ListHoraire'
 
 import Rdv from '../container/Rdv/Detail'
 import RendezVous from '../container/Rdv/RendezVous'
 import Appointment from '../container/doctor/Appointment'
 
-import Scheldul from '../evenement/Schedule'
-/* import NavBarView from '../evenement/NavBarView'
-import CardContainer from '../evenement/CardContainer'
-import Card from '../evenement/Card'
-import Helpers from '../evenement/Helpers'
-import AgendaView from '../evenement/agenda/index'
- */
+import eventTabs from '../evenement/eventTab/eventTabs'
+
 import TeleHomeScreen from '../Teleconference/TeleHomeScreen'
 import ComplteProfileUser from '../compoment/profile/ComplteProfileUser'
  import ChatScreen from '../compoment/chatBox/ChatScreen'
@@ -29,10 +24,14 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import CustomTabButton from '../navigation/CustomTabButton'
 import createMaterialTopTabNavigator from '../navigation/HoraireTabTopNavigation'
-/* import AddPost from '../container/post/AddPost'
-import PostForm from '../container/post/FoodFormScreen '
-import PostFormScreen from '../container/post/FoodForm'
- */
+import ModalView from '../horaires/component/ModalView'
+import HoraireCard from '../horaires/component/HoraireCard'
+import Blog from '../horaires/screen/Blog'
+import Apropos from '../compoment/profile/apropos/Apropos'
+import photoTabsNav from '../network/photo/photoTabsNav'
+import videoTabs from '../network/video/videoTabs'
+import dossierTabsMedical from '../network/dossierMedical/dossierTabsMedical'
+
 const Stack = createStackNavigator();
 
 const RoutesTabsBottom =  ({navigation}) => {
@@ -45,7 +44,7 @@ const RoutesTabsBottom =  ({navigation}) => {
           title: 'Laafigram',
           headerStyle: {
             backgroundColor: '#00716F',
-            height: 70,
+            height: 80,
             elevation:0.0,
             borderRadius: 3,
           },
@@ -63,6 +62,7 @@ const RoutesTabsBottom =  ({navigation}) => {
         })}
         />
         <Stack.Screen name="Profile" component={Profile} />
+        <Stack.Screen name="apropos" component={Apropos} />
         <Stack.Screen name="CompleteProfile" component={ComplteProfileUser} />
 
         <Stack.Screen name="Chat" component={ChatScreen} />
@@ -74,12 +74,12 @@ const RoutesTabsBottom =  ({navigation}) => {
         <Stack.Screen name="RendezVous" component={RendezVous} />
         <Stack.Screen name="Appointment" component={Appointment} />
         
-        <Stack.Screen name="scheldul" component={Scheldul} />
+        
        {/*  <Stack.Screen name="event" component={EventsView} />
         <Stack.Screen name="card" component={Card} />
         <Stack.Screen name="cardContainer" component={CardContainer} />
         <Stack.Screen name="Helpers" component={Helpers} />
-        <Stack.Screen name="AgendaView" component={AgendaView} /> 
+      
                     */}
 
         <Stack.Screen name="Post" component={PostScreen} 
@@ -93,10 +93,17 @@ const RoutesTabsBottom =  ({navigation}) => {
           <Stack.Screen name="Teleconference" component={TeleHomeScreen} />
           
 
-          <Stack.Screen name="Horaires" component={HoraideDoctor} />
+          <Stack.Screen name="Horaires" component={createHoraideDoctor} />
+          <Stack.Screen name="ModalView" component={ModalView} />
+          <Stack.Screen name="HoraireCard" component={HoraireCard} />
+          <Stack.Screen name="blog" component={Blog} />
           <Stack.Screen name="ho" component={createMaterialTopTabNavigator} />
 
-          <Stack.Screen name="ListHoraire" component={ListHoraire} />
+          <Stack.Screen name="videoScreen" component={videoTabs} />
+          <Stack.Screen name="eventTabs" component={eventTabs} />
+          <Stack.Screen name="photoScreen" component={photoTabsNav} />
+          <Stack.Screen name="dossierMedicalScreen" component={dossierTabsMedical} /> 
+          
 
           
       </Stack.Navigator>

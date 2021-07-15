@@ -3,14 +3,18 @@ import { StyleSheet, Image, View, TouchableOpacity } from 'react-native'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Ionicons, AntDesign, Fontisto } from '@expo/vector-icons';
 
-import PostScreen from '../container/post/PostScreen'
+import eventTabs from '../evenement/eventTab/eventTabs'
 import HomeScreen2 from '../container/dashboad/HomeScreen2'
 import DoctorList from '../container/doctor/DoctorList'
 import MedicalList from '../container/medical/MedicalList'
 import PatientList from '../container/patient/PatientList'
 import SearchScreen from '../container/search/SearchScreen'
+import NotificationScreen from '../notification/NotificationScreen'
 
 import { createStackNavigator } from '@react-navigation/stack';
+import personnelleTabs from '../container/personnelleTabs/personnelleTabs';
+import Profile from '../compoment/profile/Profile';
+import Search from '../container/search/SearchScreen';
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
 const TabsNavigation = ({ navigation }) => {
@@ -34,18 +38,18 @@ const TabsNavigation = ({ navigation }) => {
                 <View style={{
                     flexDirection: 'row',
                     justifyContent: 'space-between',
-                    width: 150,
+                    width: 100,
                     marginRight: 20
                 }}>
-                    <TouchableOpacity  onPress={() => navigation.navigate("notification")} activeOpacity={0.5}>
+                   <TouchableOpacity  onPress={() => navigation.navigate("Notification")} activeOpacity={0.5}>
                         <Ionicons name='ios-notifications-circle-outline' size={24} color= "#fff"/>
-                    </TouchableOpacity>
-                    <TouchableOpacity  onPress={() => navigation.navigate("Post")} activeOpacity={0.5}>
+                    </TouchableOpacity> 
+                   {/*  <TouchableOpacity  onPress={() => navigation.navigate("Post")} activeOpacity={0.5}>
                         <Ionicons name='ios-add' size={24} color= "#fff"/>
-                    </TouchableOpacity>
-                    <TouchableOpacity onPress={() => navigation.navigate("Profile")} activeOpacity={0.5}>
+                    </TouchableOpacity> */}
+                   {/*  <TouchableOpacity onPress={() => navigation.navigate("Profile")} activeOpacity={0.5}>
                         <Ionicons name='ios-person' size={24} color= "#fff"/>
-                    </TouchableOpacity>
+                    </TouchableOpacity> */}
                     <TouchableOpacity onPress={() => navigation.navigate("Chats")} activeOpacity={0.5}>
                         <Ionicons name='ios-chatbubble-ellipses-outline' size={24} color= "#fff"/>
                     </TouchableOpacity>
@@ -60,7 +64,9 @@ const TabsNavigation = ({ navigation }) => {
         <Tab.Navigator>
             <Tab.Screen name="home" component={HomeScreen2}
                 options={{
+                    header: () => null,
                     tabBarIcon: ({ focused }) => (
+                        
                         <View
                             style={{
                                 alignItems: 'center',
@@ -77,8 +83,9 @@ const TabsNavigation = ({ navigation }) => {
                     ),
                 }}
             />
-            <Tab.Screen name="doctor" component={DoctorList}
+            <Tab.Screen name="Personnelle" component={personnelleTabs}
                 options={{
+                    header: () => null,
                     tabBarIcon: ({ focused }) => (
                         <View
                             style={{ alignItems: 'center', justifyContent: 'center', top: 10 }}
@@ -89,63 +96,51 @@ const TabsNavigation = ({ navigation }) => {
                     ),
                 }}
             />
-            <Tab.Screen name="patient" component={PatientList}
-                options={{
-                    tabBarIcon: ({ focused }) => (
-                        <View
-                            style={{
-                                alignItems: 'center',
-                                justifyContent: 'center',
-                                top: 10
-                            }}
-                        >
-                            <Image
-                                source={require('../../images/patient1.png')}
-                                resizeMode="contain"
-                                style={{
-                                    width: 40,
-                                    height: 40,
-                                    //  tintColor: focused ? '#e32f45' : '#748c94',
-                                }}
-                            />
-                        </View>
-                    ),
-                }} />
-            <Tab.Screen name="medical" component={MedicalList}
-                options={{
-                    tabBarIcon: ({ focused }) => (
-                        <View
-                            style={{
-                                alignItems: 'center',
-                                justifyContent: 'center',
-                                top: 10
-                            }}
-                        >
-                            <Image
-                                source={require('../../images/homemedical2.jpg')}
-                                resizeMode="contain"
-                                style={{
-                                    width: 40,
-                                    height: 40,
-                                    //  tintColor: focused ? '#e32f45' : '#748c94',
-                                }}
-                            />
-                        </View>
-                    ),
-                }} />
-                        <Tab.Screen name="Search" component={SearchScreen}
+            
+              <Tab.Screen name="Agenda" component={eventTabs}
                         
-                options={{
-                    tabBarIcon: ({ focused }) => (
-                        <View
-                            style={{ alignItems: 'center', justifyContent: 'center', top: 10 }}
-                        >
-                            <Ionicons name="ios-search" size={24} color="black"
-                                style={{ width: 40, height: 40 }} />
-                        </View>
-                    ),
-                }}
-            />
+                        options={{
+                            header: () => null,
+                            tabBarIcon: ({ focused }) => (
+                                <View
+                                    style={{ alignItems: 'center', justifyContent: 'center', top: 10 }}
+                                >
+                                    <AntDesign name="calendar" size={24} color="black"
+                                        style={{ width: 40, height: 40 }} />
+                                </View>
+                            ),
+                        }}
+                    />
+              <Tab.Screen name="search" component={Search}
+                        
+                        options={{
+                            header: () => null,
+                            tabBarIcon: ({ focused }) => (
+                                <View
+                                    style={{ alignItems: 'center', justifyContent: 'center', top: 10 }}
+                                >
+                                    <Ionicons name="ios-search" size={24} color="black"
+                                        style={{ width: 40, height: 40 }} />
+                                </View>
+                            ),
+                        }}
+                    />
+            
+            <Tab.Screen name="Profile" component={Profile}
+                        
+                        options={{
+                            header: () => null,
+                            tabBarIcon: ({ focused }) => (
+                                <View
+                                    style={{ alignItems: 'center', justifyContent: 'center', top: 10 }}
+                                >
+                                    <Ionicons name="ios-person" size={24} color="black"
+                                        style={{ width: 40, height: 40 }} />
+                                </View>
+                            ),
+                        }}
+                    />
+            
 
         </Tab.Navigator>
 

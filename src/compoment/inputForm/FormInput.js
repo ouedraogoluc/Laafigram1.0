@@ -10,8 +10,8 @@ const FormInput = ({ labelValue, placeholderText, iconType, ...rest }) => {
       </View>
       <TextInput
       
-        style={styles.textInput}
-        numberOfLines={1  }
+      style={{ paddingHorizontal: 20, fontSize: 15, color: "#ccccef" }}
+        numberOfLines={2}
         placeholder={placeholderText}
         placeholderTextColor="#808080"
         underlineColorAndroid="blue"
@@ -33,7 +33,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginHorizontal: 55,
     borderWidth: 2,
-    marginTop: 50,
+    marginTop: 15,
     paddingHorizontal: 10,
     borderColor: "#00716F",
     borderRadius: 23,

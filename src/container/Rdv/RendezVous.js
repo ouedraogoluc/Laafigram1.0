@@ -14,7 +14,7 @@ export class RendezVous extends Component {
 
     this.state = {
       name: '',
-      email: '',
+      email2: '',
       mobile: '',
       isLoading: false
     };
@@ -36,14 +36,17 @@ export class RendezVous extends Component {
       this.dbRef.add({
         uid:this.uid,
         name: this.state.name,
-        email: this.state.email,
+        email: auth.currentUser.email,
+        email2: this.state.email2,
         mobile: this.state.mobile,
       }).then((res) => {
         this.setState({
           name: '',
-          email: '',
+          email2: '',
           mobile: '',
           isLoading: false,
+          email: auth.currentUser.email,
+          address: auth.currentUser.address,
         });
         this.props.navigation.navigate('UserScreen')
       })
@@ -68,7 +71,7 @@ export class RendezVous extends Component {
       <ScrollView style={styles.container}>
         <View style={styles.inputGroup}>
           <TextInput
-              placeholder={'Name'}
+              placeholder={'jours'}
               value={this.state.name}
               onChangeText={(val) => this.inputValueUpdate(val, 'name')}
           />
@@ -77,21 +80,28 @@ export class RendezVous extends Component {
           <TextInput
               multiline={true}
               numberOfLines={4}
-              placeholder={'Email'}
-              value={this.state.email}
-              onChangeText={(val) => this.inputValueUpdate(val, 'email')}
+              placeholder={'heure'}
+              value={this.state.email2}
+              onChangeText={(val) => this.inputValueUpdate(val, 'email2')}
           />
         </View>
         <View style={styles.inputGroup}>
           <TextInput
-              placeholder={'Mobile'}
+              placeholder={'type de consultion'}
+              value={this.state.mobile}
+              onChangeText={(val) => this.inputValueUpdate(val, 'mobile')}
+          />
+        </View>
+        <View style={styles.inputGroup}>
+          <TextInput
+              placeholder={'modif de consultation'}
               value={this.state.mobile}
               onChangeText={(val) => this.inputValueUpdate(val, 'mobile')}
           />
         </View>
         <View style={styles.button}>
           <Button
-            title='Add User'
+            title='Valider'
             onPress={() => this.storeUser()} 
             color="#19AC52"
           />

@@ -11,7 +11,6 @@ import {
     KeyboardAvoidingView,
     TouchableHighlight,
     Picker,
-
 } from 'react-native';
 import FormInput from '../../compoment/inputForm/FormInput';
 import FormButton from '../../compoment/button/FormButton';
@@ -54,7 +53,7 @@ const Signup = ({ navigation }) => {
     };
     return (
         <View style={{ backgroundColor: "#FFF", height: "100%" }}>
-            <Image source={require('../../../images/image.jpg')}
+            <Image source={require('../../../images/doc.png')}
                 style={{ width: "100%", height: "24%" }}
             />
             <Text
@@ -123,7 +122,7 @@ const Signup = ({ navigation }) => {
                     <Text style={styles.label}>type de medical</Text>
                     <Picker
                         niveauEtude={typeMedical}
-                        style={{ height: 50, width: 150 }}
+                        style={{ height: 50, width: "90%" }}
                         onValueChange={(itemValue) => setTypeMedical(itemValue)}
                     >
                         <Picker.Item label="Hopital" value="hopital" />
@@ -180,6 +179,7 @@ const styles = StyleSheet.create({
     },
     row: {
         marginBottom: 20,
+        width:"90%"
     },
     label: {
         fontSize: 20

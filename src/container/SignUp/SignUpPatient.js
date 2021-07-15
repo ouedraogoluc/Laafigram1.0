@@ -14,6 +14,7 @@ import {
 
 } from 'react-native';
 import DatePicker from 'react-native-datepicker'
+
 import FormInput from '../../compoment/inputForm/FormInput';
 import FormButton from '../../compoment/button/FormButton';
 import { windowHeight, windowWidth } from '../../utility/dimension/Dimension';
@@ -29,6 +30,8 @@ const Signup = ({ navigation }) => {
     const [poids, setPoids] = useState("");
     const [number, setNumber] = useState("");
     const [address, setAddress] = useState("");
+    const [date, setDate] = useState();
+
     const onSignUp = (props) => {
         firebase.auth().createUserWithEmailAndPassword(email, password)
             .then((result) => {
@@ -137,6 +140,13 @@ const Signup = ({ navigation }) => {
                     value={dateNaiss}
                     onChangeText={(text) => setDateNaiss(text)}
                 />
+{/*                  <View>
+            <Text>{date ? date.toDateString() : "Select date..."}</Text>
+            <DatePicker
+                value={date}
+                onChange={(value) => setDate(value)}
+            />
+        </View> */}
                 <View style={styles.row}>
                     <Text style={styles.label}>genre</Text>
                     <Picker

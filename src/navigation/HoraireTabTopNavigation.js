@@ -2,14 +2,14 @@
 import React from 'react'
 import { StyleSheet, Text, View } from 'react-native'
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
-import SettingsScreen from '../container/Rdv/SettingsScreen'
-import HomeScreen2 from '../container/Rdv/HomeScreen2'
+import SettingsScreen from '../horaires/screen/SettingsScreen'
+import HoraireScreen2 from '../horaires/screen/HoraireScreen2'
 
 const Tab = createMaterialTopTabNavigator();
 const HoraireTabTopNavigation = () => {
     return (
         <Tab.Navigator>
-        <Tab.Screen name="Home1" component={HomeScreen2} />
+        <Tab.Screen name="horaireScreen2" component={HoraireScreen2} />
         <Tab.Screen name="Settings" component={SettingsScreen} />
       </Tab.Navigator>
     )

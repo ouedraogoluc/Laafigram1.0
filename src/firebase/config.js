@@ -18,8 +18,8 @@ let app ;
   }else{
     app = firebase.app();
   }
-const db = app.firestore();
-const auth = firebase.auth();
-const storage=app.storage();
-export {db , auth,storage};
+export const db = app.firestore();
+export const auth = firebase.auth();
+export const storage=app.storage();
+export default {db , auth,storage } 
 

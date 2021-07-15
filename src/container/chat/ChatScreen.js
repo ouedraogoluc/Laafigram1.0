@@ -10,7 +10,7 @@ export default function HomeScreen({user,navigation}) {
              const querySanp = await db.collection('users').where('uid','!=',user.uid).get()
              const allusers = querySanp.docs.map(docSnap=>docSnap.data())
             //  console.log(allusers)
-             setUsers(allusers)
+              setUsers(allusers)
     }
 
     useEffect(()=>{
