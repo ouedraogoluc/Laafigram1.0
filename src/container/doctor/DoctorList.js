@@ -95,7 +95,6 @@ const DoctorList = ({ navigation }) => {
                   <TouchableRipple onPress={() => navigation.navigate('Rdv', { userkey: item.key })}>
                     <InteractionText >Detail</InteractionText>
                   </TouchableRipple>
-                  
                 </Interaction>
                 <Interaction>
                   <Ionicons name="md-chatbox-outline" size={25} />

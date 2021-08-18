@@ -9,7 +9,6 @@ import DoctorList from '../container/doctor/DoctorList'
 import MedicalList from '../container/medical/MedicalList'
 import PatientList from '../container/patient/PatientList'
 import SearchScreen from '../container/search/SearchScreen'
-import NotificationScreen from '../notification/NotificationScreen'
 
 import { createStackNavigator } from '@react-navigation/stack';
 import personnelleTabs from '../container/personnelleTabs/personnelleTabs';
@@ -97,8 +96,7 @@ const TabsNavigation = ({ navigation }) => {
                 }}
             />
             
-              <Tab.Screen name="Agenda" component={eventTabs}
-                        
+              <Tab.Screen name="agenda" component={eventTabs} 
                         options={{
                             header: () => null,
                             tabBarIcon: ({ focused }) => (

@@ -73,11 +73,11 @@ const More = ({ navigation }) => {
                         </View>
                         <View style={styles.row}>
                             <Icon name="phone" color="#777777" size={20} />
-                            <Text style={{ color: "#777777", marginLeft: 20 }}>ouedraogo luc</Text>
+                            <Text style={{ color: "#777777", marginLeft: 20 }}>{profile.name}</Text>
                         </View>
                         <View style={styles.row}>
                             <Icon name="email" color="#777777" size={20} />
-                            <Text style={{ color: "#777777", marginLeft: 20 }}>ouedraogo@email.com</Text>
+                            <Text style={{ color: "#777777", marginLeft: 20 }}>{profile.email}</Text>
                         </View>
                     </View>
                     <View style={styles.infoBoxWrapper}>
@@ -435,15 +435,16 @@ const More = ({ navigation }) => {
     }
 
 }
-
 export default More
 const styles = StyleSheet.create({
     container: {
         flex: 1,
+        backgroundColor:"white"
     },
     userInfoSection: {
         paddingHorizontal: 30,
         marginBottom: 25,
+      
     },
     title: {
         fontSize: 24,

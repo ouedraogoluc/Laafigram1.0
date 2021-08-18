@@ -24,7 +24,8 @@ import {
   Divider,
   Interaction,
   InteractionText,
-  InteractionWrapper
+  InteractionWrapper,
+  UserInfoTextFeather
 
 } from '../../container/dashboad/style/HomeStyle'
 import moment from 'moment';
@@ -84,16 +85,38 @@ const HomeScreen2 = ({ navigation }) => {
           renderItem={({ item }) => {
             //console.log("************************************",item);
             return (
-             <Card>
-                <UserInfo>
-                  <Image source={require('../../../images/doc2.jpg')} style={styles.avatar} />
+              <Card>
+
+                <UserInfo >
+                <TouchableOpacity onPress={()=>{}}>
+                <Image source={require('../../../images/alicia.jpeg')} style={styles.avatar} />
+                </TouchableOpacity>
                   <UserInfoText>
-                    <UserName>{item.email}</UserName>
+                  <TouchableOpacity onPress={()=>{}}>
+                  <UserName>{item.email}</UserName>
+                  </TouchableOpacity>
                     <PostTime>{typeof item.createdAt === 'string' ? formatDate(item.createdAt) : 'Autre format'}</PostTime>
                   </UserInfoText>
+                  <UserInfoTextFeather>
+                    <TouchableOpacity onPress={()=>{}}>  
+                    <Feather name="more-horizontal" size={24} color="#73788B" />
+                    </TouchableOpacity>
+                  </UserInfoTextFeather>
+              {/*     <Image source={require('../../../images/doc2.jpg')} style={styles.avatar} />
+                  <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
+                    <View>
+                      <Text style={styles.name}>{item.email}</Text>
+                      <Text style={styles.name}>{item.name}</Text>
+                      <Text style={styles.timestamp}>  {typeof item.createdAt === 'string' ? formatDate(item.createdAt) : 'Autre format'}</Text>
+                    </View>
+                    <Feather name="more-horizontal" size={24} color="#73788B" 
+                    
+                    />
+                  </View> */}
                 </UserInfo>
+
                 <PostText>{item.text}</PostText>
-                
+
                 {item.image != null ? (
                   <ProgressiveImage
                     defaultImageSource={require('../../../assets/default-img.jpg')}
@@ -104,21 +127,22 @@ const HomeScreen2 = ({ navigation }) => {
                 ) : (
                   <Divider />
                 )}
-                   <InteractionWrapper>
-        <Interaction active>
-        <Ionicons name="heart-outline" size={25} color="2e64e5" />
-          <InteractionText active>234 likes</InteractionText>
-        </Interaction>
-        <Interaction>
-          <Ionicons name="md-chatbubble-outline" size={25} />
-          <InteractionText>12 comments</InteractionText>
-        </Interaction>
-        <Interaction>
-        <Ionicons name="md-share-social-outline" size={24} color="#73788B"  />
-          <InteractionText>12 </InteractionText>
-        </Interaction>
+                
+                <InteractionWrapper>
+                  <Interaction active>
+                    <Ionicons name="heart-outline" size={25} color="2e64e5" />
+                    <InteractionText active>234 likes</InteractionText>
+                  </Interaction>
+                  <Interaction>
+                    <Ionicons name="md-chatbubble-outline" size={25} />
+                    <InteractionText>12 comments</InteractionText>
+                  </Interaction>
+                  <Interaction>
+                    <Ionicons name="md-share-social-outline" size={24} color="#73788B" />
+                    <InteractionText>12 </InteractionText>
+                  </Interaction>
 
-      </InteractionWrapper>
+                </InteractionWrapper>
 
               </Card>
 
@@ -129,7 +153,7 @@ const HomeScreen2 = ({ navigation }) => {
                               
                             <Image source={require('../../../images/doc2.jpg')} style={styles.avatar} />
                             <View style={{ flex: 1 }}>
-                              <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center" }}>
+                              <View  style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center" }}>
                                 <View>
                                   <Text style={styles.name}>{item.email}</Text>
                                   <Text style={styles.name}>{item.displayName}</Text>

@@ -3,16 +3,19 @@ import styled from 'styled-components/native'
 export const Container = styled.View`
   flex: 1;
   align-items: center;
-  background-color: #fff;
+  background-color: #f8f8f8 ;
   padding: 20px;
 `;
 
 export const Card = styled.View`
-    background-color: #f8f8f8;
+    background-color: #fff;
     width: 100%;
     margin-bottom: 20px;
     border-radius: 10px;
+    border: 10px solid #f8f8f8 ; 
+    font-size:18px
 `;
+
 
 export const UserInfo = styled.View`
     flex-direction: row;
@@ -30,6 +33,12 @@ export const UserInfoText = styled.View`
     flex-direction: column;
     justify-content: center;
     margin-left: 10px;
+`;
+
+export const UserInfoTextFeather = styled.View`
+    flex-direction: column;
+    justify-content: center;
+    margin-left: 80px;
 `;
 
 export const UserName = styled.Text`

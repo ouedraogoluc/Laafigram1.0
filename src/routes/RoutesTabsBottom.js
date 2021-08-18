@@ -4,7 +4,7 @@ import More from '../compoment/more/More'
 import Profile from '../compoment/profile/Profile'
 import PostScreen from '../container/post/PostScreen'
 import createHoraideDoctor from '../horaires/screen/createHoraideDoctor'
-import ListHoraire from '../container/doctor/ListHoraire'
+// import AppEvent  from '../event2.0/AppEvent'
 
 import Rdv from '../container/Rdv/Detail'
 import RendezVous from '../container/Rdv/RendezVous'
@@ -31,6 +31,8 @@ import Apropos from '../compoment/profile/apropos/Apropos'
 import photoTabsNav from '../network/photo/photoTabsNav'
 import videoTabs from '../network/video/videoTabs'
 import dossierTabsMedical from '../network/dossierMedical/dossierTabsMedical'
+import formRdv from '../network/dossierMedical/formRdv'
+import eventModal from '../modal/eventModal'
 
 const Stack = createStackNavigator();
 
@@ -63,6 +65,7 @@ const RoutesTabsBottom =  ({navigation}) => {
         />
         <Stack.Screen name="Profile" component={Profile} />
         <Stack.Screen name="apropos" component={Apropos} />
+        <Stack.Screen name="modal" component={eventModal} />
         <Stack.Screen name="CompleteProfile" component={ComplteProfileUser} />
 
         <Stack.Screen name="Chat" component={ChatScreen} />
@@ -103,6 +106,7 @@ const RoutesTabsBottom =  ({navigation}) => {
           <Stack.Screen name="eventTabs" component={eventTabs} />
           <Stack.Screen name="photoScreen" component={photoTabsNav} />
           <Stack.Screen name="dossierMedicalScreen" component={dossierTabsMedical} /> 
+          <Stack.Screen name="formulaire" component={formRdv} /> 
           
 
           

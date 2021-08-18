@@ -30,7 +30,7 @@ class Detail extends Component {
   constructor() {
     super();
     this.state = {
-      displayName: '',
+      name: '',
       email: '',
       profile: '',
       isLoading: true
@@ -44,7 +44,7 @@ class Detail extends Component {
         const user = res.data();
         this.setState({
           key: res.id,
-          displayName: user.displayName,
+          name: user.name,
           email: user.email,
           profile: user.profile,
           specialite: user.specialite,
