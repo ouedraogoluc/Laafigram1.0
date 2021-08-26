@@ -3,6 +3,8 @@ import React, { Component } from 'react';
 import { Alert, Button, Text,StyleSheet, TextInput, ScrollView, ActivityIndicator,Image, View } from 'react-native';
 import firebase from 'firebase'
 import "firebase/firestore";
+import Modal from "react-native-modal";
+import eventTab from '../../modal/eventModal';
 import { Ionicons, Feather, SimpleLineIcons } from '@expo/vector-icons';
 import {
   Avatar,
@@ -26,16 +28,9 @@ import {
 } from '../dashboad/style/HomeStyle'
 
 class Detail extends Component {
-
-  constructor() {
-    super();
-    this.state = {
-      name: '',
-      email: '',
-      profile: '',
-      isLoading: true
-    };
-  }
+  state = {  
+    isVisible: false, //state of modal default false  
+  }  
  
   componentDidMount() {
     const dbRef = firebase.firestore().collection('users').doc(this.props.route.params.userkey)
@@ -84,50 +79,36 @@ class Detail extends Component {
                   <PostTime>{this.state.email}</PostTime>
                 </UserInfoText>
               </UserInfo>
-              <PostText>{this.state.profile}</PostText>
-              <PostText>{this.state.specialite}</PostText>
-              <PostText>{this.state.niveauEtude}</PostText> 
-              <PostText>{this.state.formation}</PostText>
-              <PostText>{this.state.department}</PostText>
-              <PostText>{this.state.experience}</PostText>
+              <PostText>statut:{this.state.profile}</PostText>
+              <PostText>Specialité:{this.state.specialite}</PostText>
+              <PostText>Niveau Etude:{this.state.niveauEtude}</PostText> 
+              <PostText>Formation:{this.state.formation}</PostText>
+              <PostText>Departement:{this.state.department}</PostText>
+              <PostText>Experience:{this.state.experience}</PostText>
               
               <Divider />
               <InteractionWrapper>
-                <Interaction active >
-                  <Ionicons name="heart-outline" size={25} color="2e64e5" />
-                  <InteractionText active> s'abonnée</InteractionText>
-                </Interaction>
+               
                 <Interaction>
                   <Ionicons name="md-chatbubble-outline" size={25} />
+               
                   <TouchableRipple 
-                  onPress={() => {
-                    this.props.navigation.navigate('ho')
-                  }}
+                  //  onPress={() => { setVisible(true); }}
                  >
-                    <InteractionText > renddez-vous</InteractionText>
+                    <InteractionText
+                    
+                    > renddez-vous</InteractionText>
+                    
                   </TouchableRipple>
-
+                  
                 </Interaction>
+                
               </InteractionWrapper>
             </Card>
          </Container>
-{/* 
-        <View style={styles.inputGroup}>
-        <Text> {this.state.name}</Text>
-        <Text> {this.state.email}</Text>
-        <Text> {this.state.profile}</Text>
-        <Text> {this.state.niveauEtude}</Text>
-        <Text> {this.state.formation}</Text>
-        <Text> {this.state.department}</Text>
-        <Text> {this.state.experience}</Text>
-        <Text> {this.state.specialite}</Text>
-        <Text 
-        onPress={() => {
-          this.props.navigation.navigate('ho');
-        }}
-        > prendre rdv</Text>
-         
-        </View> */}
+
+ 
+        
         
          
       </ScrollView>
@@ -164,7 +145,24 @@ const styles = StyleSheet.create({
   },
   button: {
     marginBottom: 7, 
-  }
+  },
+  modal: {  
+    justifyContent: 'center',  
+    alignItems: 'center',   
+    backgroundColor : "#00BCD4",   
+    height: 300 ,  
+    width: '80%',  
+    borderRadius:10,  
+    borderWidth: 1,  
+    borderColor: '#fff',    
+    marginTop: 80,  
+    marginLeft: 40,  
+     
+     },  
+     text: {  
+        color: '#3f2949',  
+        marginTop: 10  
+     }  
 })
 
 export default  Detail;

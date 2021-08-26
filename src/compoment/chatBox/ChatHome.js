@@ -53,7 +53,7 @@ const ChatScreen = ({ navigation, route }) => {
                         <AntDesign name='phone' size={24} color='#fff' />
                     </TouchableOpacity>
 
-                    <TouchableOpacity activeOpacity={0.5}>
+                    <TouchableOpacity activeOpacity={0.5} onPress={()=>navigation.navigate("video")}>
                         <Ionicons name='ios-videocam' size={24} color='#fff' />
                     </TouchableOpacity>
                 </View>

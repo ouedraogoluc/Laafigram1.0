@@ -141,7 +141,7 @@ const More = ({ navigation }) => {
                     <ListItem >
                         <Image source={require('../../../images/tele.jpg')} style={styles.avatar} />
                         <ListItem.Content>
-                            <ListItem.Title style={styles.menuItemText}>
+                            <ListItem.Title style={styles.menuItemText}  onPress={()=>navigation.navigate("Teleconference")}>
                                 Teleconference
                             </ListItem.Title>
                             <ListItem.Subtitle numberOfLines={1} ellipsizeMode="tail">

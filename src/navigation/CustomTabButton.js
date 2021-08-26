@@ -23,14 +23,13 @@ const TabsNavigation = ({ navigation }) => {
             headerStyle: { backgroundColor: "#00716F" ,
             height: 80,
             elevation:0.0,
-            borderRadius: 5,
-            
+            borderRadius: 5,  
          },
-            headerTitleStyle: { color: "#fff" },
+            headerTitleStyle: { color: "#fff" ,
+           
+        },
             hearderTintColor: "#fff",
-
             headerLeft: () => {
-
             },
             
             headerRight: () => (
@@ -40,7 +39,7 @@ const TabsNavigation = ({ navigation }) => {
                     width: 100,
                     marginRight: 20
                 }}>
-                   <TouchableOpacity  onPress={() => navigation.navigate("Notification")} activeOpacity={0.5}>
+                   <TouchableOpacity  onPress={() => navigation.navigate("notification")} activeOpacity={0.5}>
                         <Ionicons name='ios-notifications-circle-outline' size={24} color= "#fff"/>
                     </TouchableOpacity> 
                    {/*  <TouchableOpacity  onPress={() => navigation.navigate("Post")} activeOpacity={0.5}>
@@ -157,7 +156,8 @@ const styles = StyleSheet.create({
         },
         shadowOpacity: 0.30,
         shadowRadius: 3.5,
-        elevation: 5
+        elevation: 5,
+        
     }
 
 })

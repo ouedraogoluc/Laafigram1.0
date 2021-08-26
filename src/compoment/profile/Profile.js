@@ -606,6 +606,7 @@ function formatDate(date) {
     + pad(d.getUTCHours()) + ':'
     + pad(d.getUTCDate()) + 'T'
 }
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
